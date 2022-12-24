@@ -1,0 +1,47 @@
+production:
+  clients:
+    default:
+     uri: <%= ENV['MONGODB_URI'] %>
+
+     options:
+       # The default timeout is 5, which is the time in seconds
+       # for a connection to time out.
+       # We recommend 15 because it allows for plenty of time
+       # in most operating environments.
+       connect_timeout: 15
+       retry_writes: true
+       max_pool_size: 5
+  options:
+    raise_not_found_error: false
+
+staging: #copy production
+  clients:
+    default:
+      uri: <%= ENV['MONGODB_URI'] %>
+      options:
+        connect_timeout: 15
+        retry_writes: false
+  options:
+    raise_not_found_error: false
+
+
+development:
+  clients:
+    default:
+      uri: <%= ENV.fetch('MONGODB_URI', 'mongodb://localhost:27017') %>/bxbank_sim_development
+      options:
+        retry_writes: false
+  options:
+    raise_not_found_error: false
+
+test:
+  clients:
+    default:
+      uri: <%= ENV.fetch('MONGODB_URI', 'mongodb://localhost:27017') %>/bxbank_sim_test
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 1
+        retry_writes: false
+  options:
+    raise_not_found_error: false
