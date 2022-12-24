@@ -1,0 +1,19 @@
+AllCops:
+  NewCops: enable
+  Include:
+    - app/**/*.rb
+    - config/**/*.rb
+    - lib/**/*.rb
+    - spec/**/*.rb
+  Exclude:
+    - bin/**/*
+    - node_modules/**/*
+
+require:
+  - rubocop-rails
+
+Rails:
+  Enabled: true
+
+Style/Documentation:
+  Enabled: false
