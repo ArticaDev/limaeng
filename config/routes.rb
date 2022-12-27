@@ -12,8 +12,16 @@ Rails.application.routes.draw do
         put '/:id', to: 'projects#update'
         delete '/:id', to: 'projects#destroy'
       end
+
+      resource :stages do
+        get '/types', to: 'stages#stage_types'
+      end
+
+
     end
   end
+
+
 
   root to: 'home#index'
 end
