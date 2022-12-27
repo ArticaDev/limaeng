@@ -50,6 +50,7 @@ Rails.application.configure do
   config.active_support.disallowed_deprecation_warnings = []
 
   config.hosts << ENV['APP_DOMAIN']
+  config.hosts << "9697-189-6-7-220.sa.ngrok.io"
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 

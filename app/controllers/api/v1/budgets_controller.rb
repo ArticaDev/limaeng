@@ -6,7 +6,7 @@ module Api
       before_action :set_project, only: %i[show]
 
       def show
-        project_budget = Budget::GetProjectBudgetService.new(@project).call
+        project_budget = Budget::GenerateProjectBudgetService.new(@project).call
         render json: project_budget, status: :ok
       end
 

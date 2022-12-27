@@ -5,6 +5,7 @@ class Project
   include Mongoid::Timestamps
 
   belongs_to :state
+  embeds_many :stages
 
   field :owner_name, type: String
 

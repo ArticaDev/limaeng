@@ -7,8 +7,8 @@ module Budget
     end
 
     def call
-      budget = stages.map do |stage|
-        [stage.name, stage_cost(stage)]
+      budget = stage_types.map do |stage_type|
+        [stage_type.name, stage_cost(stage_type)]
       end
       budget.to_h
     end
@@ -23,8 +23,8 @@ module Budget
       @project.total_cost
     end
 
-    def stages
-      Stage.all
+    def stage_types
+      StageType.all
     end
   end
 end
