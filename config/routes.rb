@@ -16,12 +16,8 @@ Rails.application.routes.draw do
       resource :stages do
         get '/types', to: 'stages#stage_types'
       end
-
-
     end
   end
-
-
 
   root to: 'home#index'
 end
