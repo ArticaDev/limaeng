@@ -7,6 +7,8 @@ class Project
   belongs_to :state
   embeds_many :stages
 
+  field :name, type: String
+
   field :owner_name, type: String
 
   field :address_cep, type: String
@@ -23,6 +25,13 @@ class Project
   field :start_date, type: Date
   field :contract_date, type: Date
 
+  field :last_generated_budget, type: String
+
+  def last_generated_budget_hash
+    return {} if last_generated_budget.blank?
+    JSON.parse(last_generated_budget)
+  end
+
   def price_per_meter
     state.send("#{price_class}_price_per_meter")
   end
@@ -33,5 +42,9 @@ class Project
 
   def total_cost
     total_area * price_per_meter
+  end
+
+  def total_stages_budget
+    stages.map(&:total_value).sum
   end
 end
