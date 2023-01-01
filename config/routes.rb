@@ -15,7 +15,16 @@ Rails.application.routes.draw do
 
       resource :stages do
         get '/types', to: 'stages#stage_types'
+        post '/', to: 'stages#stage'
+        post '/update', to: 'stages#update_stage'
+        post '/month', to: 'stages#month'
+        post '/progression', to: 'stages#stages_progression'
       end
+
+      resource :budgets do 
+        get '/:id', to: 'budgets#show'
+      end
+
     end
   end
 
