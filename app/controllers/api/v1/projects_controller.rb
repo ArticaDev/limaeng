@@ -24,7 +24,7 @@ module Api
       end
 
       def create
-        state = State.find_by!(abbreviation: params[:address_state])
+        state = State.find_by!(abbreviation: 'SP')
         @project = Project.create!(project_params.merge(state:))
 
         render json: @project, status: :created
