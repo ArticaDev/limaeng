@@ -25,8 +25,8 @@ class Stage
 
   def current_total_percentage 
     return 0 if Date.today < project.start_date
-    current_month = (project.start_date - Date.today.month).to_i/30
-    current_month = stage_index.abs
+    current_month = (project.start_date.month - Date.today.month).to_i/30
+    current_month = current_month.abs
     percentage_per_month[0..current_month].sum
   end
 
