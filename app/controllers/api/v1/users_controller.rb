@@ -12,8 +12,8 @@ module Api
   
         def project
           project = Project.find_by(user_email: @user.email)
-          current_project_id = project.id
-          render json: current_project_id, status: :ok
+          current_project_id = project.id.to_s
+          render json: {project_id: current_project_id}, status: :ok
         end
   
         private
