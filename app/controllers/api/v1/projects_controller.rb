@@ -119,7 +119,7 @@ module Api
           :address_city, :address_street, :address_neighborhood,
           :price_class, :has_parapent, :duration_in_months,
           :financial_institution, :start_date, :contract_date,
-          floor_sizes: []
+          :user_email, floor_sizes: []
         )
       end
     end

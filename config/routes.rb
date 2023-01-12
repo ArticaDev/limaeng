@@ -21,10 +21,14 @@ Rails.application.routes.draw do
         post '/progression', to: 'stages#stages_progression'
       end
 
-      resource :budgets do 
+      resource :budgets do
         get '/:id', to: 'budgets#show'
       end
 
+      resource :users do
+        post 'get_project/:email', to: 'users#project'
+        post '/', to: 'users#create'
+      end
     end
   end
 
