@@ -23,7 +23,7 @@ module Api
         end
   
         def set_user
-          @user = User.find(params[:email])
+          @user = User.find_by(email: params[:email])
         end
       end
     end

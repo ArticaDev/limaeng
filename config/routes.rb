@@ -26,7 +26,7 @@ Rails.application.routes.draw do
       end
 
       resource :users do
-        post 'get_project/:email', to: 'users#project'
+        post '/get_project', to: 'users#project'
         post '/', to: 'users#create'
       end
     end
