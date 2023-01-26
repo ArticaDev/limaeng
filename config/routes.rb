@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 
       resource :budgets do
         get '/:id', to: 'budgets#show'
+        post '/update/:id', to: 'budgets#update'
       end
 
       resource :users do

@@ -16,6 +16,17 @@ module Api
         render json: project_budget, status: :ok
       end
 
+      def update
+        @project = Project.find(params[:id])
+        updated_budget = params[:budget]
+        @project.stages.each do |stage|
+          stage.update(total_value: updated_budget[stage.stage_type.name])
+        end
+        @project.update(last_generated_budget: updated_budget.to_json)
+
+        render json: updated_budget, status: :ok
+      end
+
       private
 
       def generate_budget
