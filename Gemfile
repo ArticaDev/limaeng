@@ -54,3 +54,7 @@ gem 'inertia_rails', '~> 2.0'
 gem 'vite_rails', '~> 3.0'
 
 gem 'mongoid', '~> 8.0'
+
+gem "aws-sdk-s3", "~> 1.118"
+
+gem "dotenv-rails", "~> 2.8", :groups => [:development, :test]
