@@ -6,6 +6,7 @@ class Project
 
   belongs_to :state
   embeds_many :stages
+  embeds_many :documents
 
   field :name, type: String
 
