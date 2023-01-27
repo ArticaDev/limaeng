@@ -30,6 +30,11 @@ Rails.application.routes.draw do
         post '/get_project', to: 'users#project'
         post '/', to: 'users#create'
       end
+
+      resource :documents do 
+        post '/upload/:id', to: 'documents#upload'
+        get '/:id', to: 'documents#show'
+      end
     end
   end
 
