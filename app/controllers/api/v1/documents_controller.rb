@@ -8,11 +8,13 @@ module Api
         def upload
             file = params[:file]
             content = File.open(file.tempfile)
-            filename = file.original_filename
+            original_filename = file.original_filename
+            custom_filename = params[:filename]
             doc = UploadProjectFileService.new(
                 @project, 
                 content,
-                filename
+                original_filename,
+                custom_filename
             ).call
 
             response = doc.as_json.merge(url: doc.url)

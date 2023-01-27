@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class UploadProjectFileService 
-    def initialize(project, file, file_name)
+    def initialize(project, file, original_filename, custom_filename)
       @project = project
       @file = file
-      @file_name = file_name
+      @original_filename = original_filename
+      @custom_filename = custom_filename
     end
   
     def call
@@ -13,18 +14,14 @@ class UploadProjectFileService
       @project.documents.create!(
         file_key: s3_object_key, 
         file_type: file_type, 
-        name: file_name_without_extension
+        name: @custom_filename
       )
     end
 
     private
 
-    def file_name_without_extension
-      @file_name.split('.').first
-    end
-
     def file_type
-      @file_name.split('.').last
+      @original_filename.split('.').last
     end
 
     def s3_service
@@ -33,6 +30,6 @@ class UploadProjectFileService
 
     def file_key
       timestamp = Time.now.to_i
-      "#{timestamp}_#{@file_name}"
+      "#{timestamp}_#{@original_filename}"
     end
 end
