@@ -10,7 +10,6 @@ class Project
 
   field :name, type: String
 
-  field :owner_name, type: String
   field :user_email, type: String
 
   field :address_cep, type: String

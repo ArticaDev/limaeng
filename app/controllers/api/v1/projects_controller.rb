@@ -115,7 +115,7 @@ module Api
 
       def project_params
         params.require(:project).permit(
-          :owner_name, :address_cep, :address_state,
+          :address_cep, :address_state,
           :address_city, :address_street, :address_neighborhood,
           :price_class, :has_parapent, :duration_in_months,
           :financial_institution, :start_date, :contract_date,
