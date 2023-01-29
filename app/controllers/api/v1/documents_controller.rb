@@ -3,7 +3,7 @@
 module Api
     module V1
       class DocumentsController < ApiController
-        before_action :set_project, only: %i[upload show]
+        before_action :set_project, only: %i[upload show upload_as_json]
 
         def upload
             file = params[:file]
@@ -17,6 +17,31 @@ module Api
                 custom_filename
             ).call
 
+            response = doc.as_json.merge(url: doc.url)
+            render json: response, status: :ok
+        end
+
+        def upload_as_json
+
+            decoded_file = Base64.decode64(params[:file_content])
+            custom_filename = params[:filename]
+            file_ext = params[:file_type]
+
+            file = Tempfile.new("temp_#{custom_filename}")
+            file.binmode
+            file.write(decoded_file)
+            file.rewind
+
+            doc = UploadProjectFileService.new(
+                @project, 
+                file,
+                "#{custom_filename}.#{file_ext}",
+                custom_filename
+            ).call
+
+            file.close
+            file.unlink
+        
             response = doc.as_json.merge(url: doc.url)
             render json: response, status: :ok
         end

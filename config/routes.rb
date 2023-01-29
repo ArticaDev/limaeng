@@ -33,6 +33,7 @@ Rails.application.routes.draw do
 
       resource :documents do 
         post '/upload/:id', to: 'documents#upload'
+        post '/upload/json/:id', to: 'documents#upload_as_json'
         get '/:id', to: 'documents#show'
       end
     end
