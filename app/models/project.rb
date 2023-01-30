@@ -42,8 +42,9 @@ class Project
   end
 
   def total_cost
-    total_stages_budget ||
-    (total_area * price_per_meter)
+    total_stages_budget.positive?
+    ? total_stages_budget
+    : (total_area * price_per_meter)
   end
 
   def total_stages_budget
