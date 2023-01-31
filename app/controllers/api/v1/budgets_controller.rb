@@ -24,7 +24,7 @@ module Api
         end
         @project.update(last_generated_budget: updated_budget.to_json)
 
-        render json: updated_budget, status: :ok
+        render json: updated_budget.merge(total_cost: @project.total_cost), status: :ok
       end
 
       private
