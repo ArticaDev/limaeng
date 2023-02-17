@@ -39,9 +39,10 @@ module Api
           {
             name: stage.stage_type.name,
             percentages_per_month: stage.percentage_per_month,
-            months: months_array
           }
         end
+
+        @stages_percentage_per_month.merge!({months: months_array})
         render json: @stages_percentage_per_month
       end
 
