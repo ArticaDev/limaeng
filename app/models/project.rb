@@ -16,6 +16,8 @@ class Project
   field :address_city, type: String
   field :address_street, type: String
   field :address_neighborhood, type: String
+  field :address_number, type: String
+  field :address_complement, type: String
 
   field :price_class, type: String
   field :has_parapent, type: Mongoid::Boolean
