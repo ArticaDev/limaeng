@@ -32,6 +32,18 @@ module Api
         render json: @stage
       end
 
+      def all_percentage_per_month
+        @project = Project.find(params[:id])
+        @stages = @project.stages
+        @stages_percentage_per_month = @stages.map do |stage|
+          {
+            name: stage.stage_type.name,
+            percentages_per_month: stage.percentage_per_month
+          }
+        end
+        render json: @stages_percentage_per_month
+      end
+
       def month 
         month = params[:month]
         stage_index = (@project.start_date - Date.strptime(month,"%m-%y")).to_i/30
