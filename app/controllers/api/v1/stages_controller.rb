@@ -38,7 +38,8 @@ module Api
         @stages_percentage_per_month = @stages.map do |stage|
           {
             name: stage.stage_type.name,
-            percentages_per_month: stage.percentage_per_month
+            percentages_per_month: stage.percentage_per_month,
+            months: months_array
           }
         end
         render json: @stages_percentage_per_month
