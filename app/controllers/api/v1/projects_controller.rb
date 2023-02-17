@@ -120,7 +120,7 @@ module Api
           :address_number, :address_complement,
           :price_class, :has_parapent, :duration_in_months,
           :financial_institution, :start_date, :contract_date,
-          :user_email, floor_sizes: []
+          :user_email, :owner_name, floor_sizes: []
         )
       end
     end
