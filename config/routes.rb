@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resource :projects do
+        post '/add_member', to: 'projects#add_member'
+        get '/members/:id', to: 'projects#project_members'
+        post '/remove_member', to: 'projects#remove_member'
         get '/', to: 'projects#index'
         post '/:id', to: 'projects#create'
         get '/:id', to: 'projects#show'
@@ -28,7 +31,7 @@ Rails.application.routes.draw do
       end
 
       resource :users do
-        post '/get_project', to: 'users#project'
+        post '/get_projects', to: 'users#projects'
         post '/', to: 'users#create'
       end
 

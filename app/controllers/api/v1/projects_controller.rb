@@ -3,7 +3,7 @@
 module Api
   module V1
     class ProjectsController < ApiController
-      before_action :set_project, only: %i[show update destroy]
+      before_action :set_project, only: %i[show update destroy project_members add_member remove_member]
 
       def index
         @projects = Project.all
@@ -26,9 +26,47 @@ module Api
       def create
         state = State.find_by!(abbreviation: 'SP')
         @project = Project.create!(project_params.merge(state:))
-
+        ProjectMember.create!(user_email: project_params[:user_email],
+                              project_id: @project.id, role: 'owner')
+        
         render json: @project, status: :created
       end
+
+      def add_member
+        email = params[:user_email]
+        role = params[:role]
+
+        project_member = ProjectMember.create(user_email: email,
+                              project_id: @project.id, role: role)
+
+        render json: project_member, status: :created
+
+      end
+
+      def remove_member
+        
+        email = params[:user_email]
+
+        project_member = ProjectMember.find_by(user_email: email,
+                              project_id: @project.id)
+
+        project_member.destroy
+
+        render json: {}, status: :ok
+
+      end
+
+      def project_members
+        members = @project.project_members.map { |member|
+          {
+            email: member.user_email,
+            role: member.role,
+            name: User.find_by(email: member.user_email).name
+          }
+        }.filter { |member| member[:email] != @project.user_email }
+
+        render json: members, status: :ok
+      end 
 
       def update
         @project.update(project_params)
@@ -110,6 +148,7 @@ module Api
       end
 
       def set_project
+        
         @project = Project.find(params[:id])
       end
 

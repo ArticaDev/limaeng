@@ -53,4 +53,8 @@ class Project
   def total_stages_budget
     stages.map(&:total_value).sum
   end
+
+  def project_members
+    ProjectMember.where(project_id: id.to_s)
+  end
 end
