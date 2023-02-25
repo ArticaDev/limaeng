@@ -20,7 +20,8 @@ class User
         id: project.id.to_s,
         owner_name: project.owner_name,
         address_street: project.address_street,
-        isOwner: member.role == 'owner'
+        isOwner: member.role == 'owner',
+        member: member.role
       }}
     end
   end
