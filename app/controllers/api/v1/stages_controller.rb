@@ -12,16 +12,24 @@ module Api
       end
 
       def update_stage
-        current_percentage_per_month = @stage.percentage_per_month
-
+        
         month = params[:month]
-        percentage = params[:percentage].to_f
+        status = params[:status]
+        percentage = params[:percentage]
         
         stage_index = (@project.start_date - Date.strptime(month,"%m-%y")).to_i/30
         stage_index = stage_index.abs
+        
+        byebug
 
-        current_percentage_per_month[stage_index] = percentage
-        @stage.percentage_per_month = current_percentage_per_month
+        if percentage
+          @stage.percentage_per_month[stage_index] = percentage.to_f
+        end
+
+        if status
+          @stage.status_per_month[stage_index] = status
+        end
+
         @stage.save!
 
         render json: @stage, status: :ok
@@ -63,12 +71,14 @@ module Api
           next if stage.percentage_per_month[stage_index].zero?
 
           percentage = stage.percentage_per_month[stage_index]
+          status = stage.status_per_month[stage_index]
 
           total_cost += stage.total_value * percentage / 100
 
           month_stages << {
             name: stage.stage_type.name,
-            percentage: percentage
+            percentage: percentage,
+            status: status
             
           }
 

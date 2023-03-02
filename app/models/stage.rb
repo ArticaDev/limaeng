@@ -9,6 +9,7 @@ class Stage
   field :stage_type_id, type: BSON::ObjectId
   field :total_value, type: BigDecimal
   field :percentage_per_month, type: Array, default: []
+  field :status_per_month, type: Array, default: [] 
 
   validate :valid_total_percentage
 

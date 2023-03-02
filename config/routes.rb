@@ -10,7 +10,7 @@ Rails.application.routes.draw do
         get '/members/:id', to: 'projects#project_members'
         post '/remove_member', to: 'projects#remove_member'
         get '/', to: 'projects#index'
-        post '/:id', to: 'projects#create'
+        post '/', to: 'projects#create'
         get '/:id', to: 'projects#show'
         put '/:id', to: 'projects#update'
         delete '/:id', to: 'projects#destroy'
