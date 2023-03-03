@@ -19,8 +19,7 @@ module Api
         
         stage_index = (@project.start_date - Date.strptime(month,"%m-%y")).to_i/30
         stage_index = stage_index.abs
-        
-        byebug
+
 
         if percentage
           @stage.percentage_per_month[stage_index] = percentage.to_f
