@@ -18,11 +18,13 @@ Rails.application.routes.draw do
 
       resource :stages do
         get '/types', to: 'stages#stage_types'
-        post '/', to: 'stages#stage'
+        get '/steps/:id', to: 'stages#stage_steps'
+        post '/update_steps', to: 'stages#update_stage_steps'
         post '/update', to: 'stages#update_stage'
         post '/month', to: 'stages#month'
         post '/all_percentage_per_month', to: 'stages#all_percentage_per_month'
         post '/progression', to: 'stages#stages_progression'
+        post '/', to: 'stages#stage'
       end
 
       resource :budgets do

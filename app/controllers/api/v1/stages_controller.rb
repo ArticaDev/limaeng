@@ -3,8 +3,8 @@
 module Api
   module V1
     class StagesController < ApiController
-      before_action :set_project_and_stage, only: %i[update_stage stage]
-      before_action :set_project, only: %i[month stages_progression]
+      before_action :set_project_and_stage, only: %i[update_stage stage update_stage_steps]
+      before_action :set_project, only: %i[month stages_progression stage_steps]
 
       def stage_types
         @stage_types = StageType.all
@@ -111,6 +111,27 @@ module Api
         }
       end
 
+      def stage_steps 
+        progression = @project.stages.map{ |stage|
+          {
+            name: stage.stage_type.name,
+            steps: stage.current_steps_progress
+          }
+        }
+        render json: {
+          progression: progression,
+          number_of_floors: @project.floor_sizes.count
+        }
+      end
+
+      def update_stage_steps
+        status = params[:status]
+        floor_number = params[:floor]
+        step_name = params[:step_name]
+        current_steps_progress = @stage.steps_progress
+        current_steps_progress[floor_number][step_name] = status
+        @stage.save!
+      end 
 
       private
 
