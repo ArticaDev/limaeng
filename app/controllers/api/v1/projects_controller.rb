@@ -14,8 +14,8 @@ module Api
 
         project_data = {
           **@project.attributes.as_json.except('stages'),
-          total_project_percentage: total_project_percentage,
-          months: months_array
+          months: months_array,
+          total_project_percentage: total_project_percentage
         }
 
         render json: project_data
@@ -80,19 +80,20 @@ module Api
 
       private
 
+      def total_project_percentage
+        
+        return 0 if @project.stages.empty?
+
+        @project.stages.map(&:current_total_percentage).sum
+      end
+
+
       def months_array
         expected_end_date = @project.start_date + (@project.duration_in_months-1).months
 
         (@project.start_date..expected_end_date).map {|date|
           date.strftime("%m-%y")
         }.uniq
-      end
-
-      def total_project_percentage
-        
-        return 0 if current_stages.empty?
-
-        current_stages.map(&:current_total_percentage).sum
       end
 
       def set_project

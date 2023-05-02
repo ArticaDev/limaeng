@@ -45,6 +45,7 @@ class Stage
   end
 
   def current_total_percentage 
+    return 0 if current_steps_progress.map{ |floor| floor.values.count }.sum.zero?
     current_steps_progress.map{ |floor| floor.values.count('finished') }.sum * 100 / current_steps_progress.map{ |floor| floor.values.count }.sum
   end
 
