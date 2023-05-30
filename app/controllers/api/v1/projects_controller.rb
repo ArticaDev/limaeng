@@ -52,7 +52,7 @@ module Api
       end
 
       def project_members
-        members = @project.project_members.map do |member|
+        members = @project.project_members.select{ |member| !member[:user_email].blank? }.map do |member|
           {
             email: member.user_email,
             role: member.role,
