@@ -12,22 +12,16 @@ module Api
       end
 
       def update_stage
-        
         month = params[:month]
         status = params[:status]
         percentage = params[:percentage]
-        
-        stage_index = (@project.start_date - Date.strptime(month,"%m-%y")).to_i/30
+
+        stage_index = (@project.start_date - Date.strptime(month, '%m-%y')).to_i / 30
         stage_index = stage_index.abs
 
+        @stage.percentage_per_month[stage_index] = percentage.to_f if percentage
 
-        if percentage
-          @stage.percentage_per_month[stage_index] = percentage.to_f
-        end
-
-        if status
-          @stage.status_per_month[stage_index] = status
-        end
+        @stage.status_per_month[stage_index] = status if status
 
         @stage.save!
 
@@ -35,7 +29,6 @@ module Api
       end
 
       def stage
-        
         render json: @stage
       end
 
@@ -45,7 +38,7 @@ module Api
         @stages_percentage_per_month = @stages.map do |stage|
           {
             name: stage.stage_type.name,
-            percentages_per_month: stage.percentage_per_month,
+            percentages_per_month: stage.percentage_per_month
           }
         end
 
@@ -57,16 +50,15 @@ module Api
         render json: @all_percentage_per_month
       end
 
-      def month 
+      def month
         month = params[:month]
-        stage_index = (@project.start_date - Date.strptime(month,"%m-%y")).to_i/30
+        stage_index = (@project.start_date - Date.strptime(month, '%m-%y')).to_i / 30
         stage_index = stage_index.abs
 
         total_cost = 0
         month_stages = []
 
-        @project.stages.each {|stage|
-
+        @project.stages.each do |stage|
           next if stage.percentage_per_month[stage_index].zero?
 
           percentage = stage.percentage_per_month[stage_index]
@@ -76,50 +68,46 @@ module Api
 
           month_stages << {
             name: stage.stage_type.name,
-            percentage: percentage,
-            status: status
-            
-          }
+            percentage:,
+            status:
 
-        }
+          }
+        end
 
         render json: {
-          total_cost: total_cost,
+          total_cost:,
           stages: month_stages
         }
-
       end
 
       def stages_progression
         stages = @project.stages
 
-        progression = stages.map {|stage|
-
+        progression = stages.map do |stage|
           next if stage.percentage_per_month.sum.zero?
 
           {
             name: stage.stage_type.name,
-            first_month: stage.percentage_per_month.index {|x| x != 0},
-            last_month: stage.percentage_per_month.rindex {|x| x != 0} + 1
+            first_month: stage.percentage_per_month.index { |x| x != 0 },
+            last_month: stage.percentage_per_month.rindex { |x| x != 0 } + 1
           }
+        end.compact
 
-        }.compact
-
-        render json: { 
-          progression: progression,
+        render json: {
+          progression:,
           months: months_array
         }
       end
 
-      def stage_steps 
-        progression = @project.stages.map{ |stage|
+      def stage_steps
+        progression = @project.stages.map do |stage|
           {
             name: stage.stage_type.name,
             steps: stage.current_steps_progress
           }
-        }
+        end
         render json: {
-          progression: progression,
+          progression:,
           number_of_floors: @project.floor_sizes.count
         }
       end
@@ -131,16 +119,16 @@ module Api
         current_steps_progress = @stage.steps_progress
         current_steps_progress[floor_number][step_name] = status
         @stage.save!
-      end 
+      end
 
       private
 
       def months_array
-        expected_end_date = @project.start_date + (@project.duration_in_months-1).months
+        expected_end_date = @project.start_date + (@project.duration_in_months - 1).months
 
-        (@project.start_date..expected_end_date).map {|date|
-          date.strftime("%m-%y")
-        }.uniq
+        (@project.start_date..expected_end_date).map do |date|
+          date.strftime('%m-%y')
+        end.uniq
       end
 
       def set_project_and_stage

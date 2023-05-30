@@ -9,7 +9,7 @@ class Project
   embeds_many :documents
 
   field :name, type: String
-  
+
   field :owner_name, type: String
   field :user_email, type: String
 
@@ -33,6 +33,7 @@ class Project
 
   def last_generated_budget_hash
     return {} if last_generated_budget.blank?
+
     JSON.parse(last_generated_budget)
   end
 
@@ -45,9 +46,11 @@ class Project
   end
 
   def total_cost
-    total_stages_budget.positive? ? 
-    total_stages_budget : 
-    (total_area * price_per_meter)
+    if total_stages_budget.positive?
+      total_stages_budget
+    else
+      (total_area * price_per_meter)
+    end
   end
 
   def total_stages_budget

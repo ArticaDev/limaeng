@@ -11,11 +11,10 @@ module Api
       end
 
       def show
-
         project_data = {
           **@project.attributes.as_json.except('stages'),
           months: months_array,
-          total_project_percentage: total_project_percentage
+          total_project_percentage:
         }
 
         render json: project_data
@@ -26,7 +25,7 @@ module Api
         @project = Project.create!(project_params.merge(state:))
         ProjectMember.create!(user_email: project_params[:user_email],
                               project_id: @project.id, role: 'owner')
-        
+
         render json: @project, status: :created
       end
 
@@ -36,37 +35,34 @@ module Api
         job_title = params[:job_title]
 
         project_member = ProjectMember.create(user_email: email,
-                              project_id: @project.id, role: role, job_title: job_title)
+                                              project_id: @project.id, role:, job_title:)
 
         render json: project_member, status: :created
-
       end
 
       def remove_member
-        
         email = params[:user_email]
 
         project_member = ProjectMember.find_by(user_email: email,
-                              project_id: @project.id)
+                                               project_id: @project.id)
 
         project_member.destroy
 
         render json: {}, status: :ok
-
       end
 
       def project_members
-        members = @project.project_members.map { |member|
+        members = @project.project_members.map do |member|
           {
             email: member.user_email,
             role: member.role,
             job_title: member.job_title,
             name: User.find_by(email: member.user_email).name
           }
-        }.filter { |member| member[:email] != @project.user_email }
+        end.filter { |member| member[:email] != @project.user_email }
 
         render json: members, status: :ok
-      end 
+      end
 
       def update
         @project.update(project_params)
@@ -83,23 +79,20 @@ module Api
       private
 
       def total_project_percentage
-        
         return 0 if @project.stages.empty?
 
         @project.stages.map(&:current_total_percentage).sum
       end
 
-
       def months_array
-        expected_end_date = @project.start_date + (@project.duration_in_months-1).months
+        expected_end_date = @project.start_date + (@project.duration_in_months - 1).months
 
-        (@project.start_date..expected_end_date).map {|date|
-          date.strftime("%m-%y")
-        }.uniq
+        (@project.start_date..expected_end_date).map do |date|
+          date.strftime('%m-%y')
+        end.uniq
       end
 
       def set_project
-        
         @project = Project.find(params[:id])
       end
 

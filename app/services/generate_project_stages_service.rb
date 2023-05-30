@@ -8,7 +8,7 @@ class GenerateProjectStagesService
 
   def call
     @project.stages = stage_types.map do |stage_type|
-      Stage.new(stage_type_id:stage_type.id.to_s, percentage_per_month:,
+      Stage.new(stage_type_id: stage_type.id.to_s, percentage_per_month:,
                 total_value: @project_budget[stage_type.name], status_per_month:)
     end
     @project.save!

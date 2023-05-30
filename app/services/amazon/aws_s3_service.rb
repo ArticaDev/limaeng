@@ -2,7 +2,6 @@
 
 module Amazon
   class AwsS3Service
-  
     def store_file(file_name, file_content)
       s3_client.put_object(
         bucket: aws_bucket,
@@ -28,7 +27,7 @@ module Amazon
       )
     end
 
-    def presigner 
+    def presigner
       Aws::S3::Presigner.new(
         client: s3_client
       )
