@@ -33,9 +33,10 @@ module Api
       def add_member
         email = params[:user_email]
         role = params[:role]
+        job_title = params[:job_title]
 
         project_member = ProjectMember.create(user_email: email,
-                              project_id: @project.id, role: role)
+                              project_id: @project.id, role: role, job_title: job_title)
 
         render json: project_member, status: :created
 
@@ -59,6 +60,7 @@ module Api
           {
             email: member.user_email,
             role: member.role,
+            job_title: member.job_title,
             name: User.find_by(email: member.user_email).name
           }
         }.filter { |member| member[:email] != @project.user_email }

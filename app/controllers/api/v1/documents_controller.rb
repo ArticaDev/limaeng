@@ -10,11 +10,13 @@ module Api
             content = File.open(file.tempfile)
             original_filename = file.original_filename
             custom_filename = params[:filename]
+            category = params[:category]
             doc = UploadProjectFileService.new(
                 @project, 
                 content,
                 original_filename,
-                custom_filename
+                custom_filename,
+                category
             ).call
 
             response = doc.as_json.merge(url: doc.url)
@@ -26,6 +28,7 @@ module Api
             decoded_file = Base64.decode64(params[:file_content])
             custom_filename = params[:filename]
             file_ext = params[:file_type]
+            category = params[:category]
 
             file = Tempfile.new("temp_#{custom_filename}")
             file.binmode
@@ -36,7 +39,8 @@ module Api
                 @project, 
                 file,
                 "#{custom_filename}.#{file_ext}",
-                custom_filename
+                custom_filename,
+                category
             ).call
 
             file.close
@@ -57,6 +61,7 @@ module Api
                 {
                     file_name: doc.name,
                     file_type: doc.file_type,
+                    file_category: doc.category,
                     url: doc.url
                 }
             end

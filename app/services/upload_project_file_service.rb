@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class UploadProjectFileService 
-    def initialize(project, file, original_filename, custom_filename)
+    def initialize(project, file, original_filename, custom_filename, category)
       @project = project
       @file = file
       @original_filename = original_filename
       @custom_filename = custom_filename
+      @category = category
     end
   
     def call
@@ -14,7 +15,8 @@ class UploadProjectFileService
       @project.documents.create!(
         file_key: s3_object_key, 
         file_type: file_type, 
-        name: @custom_filename
+        name: @custom_filename,
+        category: @category
       )
     end
 

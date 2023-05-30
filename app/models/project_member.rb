@@ -7,5 +7,6 @@ class ProjectMember
     field :user_email, type: String
     field :project_id, type: String
     field :role, type: String
+    field :job_title, type: String
 end
   
