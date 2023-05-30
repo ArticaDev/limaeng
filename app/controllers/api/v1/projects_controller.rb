@@ -57,7 +57,7 @@ module Api
             email: member.user_email,
             role: member.role,
             job_title: member.job_title,
-            name: User.find_by(email: member.user_email).name
+            name: User.find_by(email: member.user_email).name || ''
           }
         end.filter { |member| member[:email] != @project.user_email }
 
