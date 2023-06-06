@@ -103,6 +103,7 @@ module Api
         progression = @project.stages.map do |stage|
           {
             name: stage.stage_type.name,
+            floor_type: stage.stage_type.floorType,
             steps: stage.current_steps_progress
           }
         end
