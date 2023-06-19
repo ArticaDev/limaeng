@@ -6,8 +6,6 @@ class StageType
 
   field :name, type: String
   field :coeficient, type: BigDecimal
-  field :steps, type: Array, default: []
-  field :singleFloor, type: Boolean, default: false
-  field :floorType, type: String, default: 'floor'
+  field :steps_description, type: Array, default:[]
   field :order, type: Integer
 end

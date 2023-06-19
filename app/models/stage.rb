@@ -16,18 +16,23 @@ class Stage
 
   def initial_steps_progress
     stage_type = StageType.find(stage_type_id)
-    number_of_instances = stage_type.singleFloor ? 1 : project.floor_sizes.count
-    initial_progress = (1..number_of_instances).map  do |_floor|
-      floor_progression = {}
-      return floor_progression if stage_type.steps.blank?
-
-      stage_type.steps.each do |step|
-        floor_progression[step] = 'pending'
+    steps_description = stage_type.steps_description
+    all_steps_progress = []
+    steps_description.each do |step_description|
+      number_of_instances = step_description["singleFloor"] ? 1 : project.floor_sizes.count
+      initial_progress = (1..number_of_instances).map  do |_floor|
+        floor_progression = {}
+        return floor_progression if step_description["steps"].blank?
+  
+        step_description["steps"].each do |step|
+          floor_progression[step] = 'pending'
+        end
+        floor_progression
       end
-      floor_progression
-    end
-    update(steps_progress: initial_progress)
-    initial_progress
+      all_steps_progress << {floor_type:step_description["floorType"], steps: initial_progress}
+    end 
+    update(steps_progress: all_steps_progress)
+    all_steps_progress
   end
 
   def current_steps_progress

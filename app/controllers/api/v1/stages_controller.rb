@@ -103,8 +103,8 @@ module Api
         progression = @project.stages.map do |stage|
           {
             name: stage.stage_type.name,
-            floor_type: stage.stage_type.floorType,
-            steps: stage.current_steps_progress
+            steps_progression: stage.current_steps_progress,
+            floor_types: stage.stage_type.steps_description.map{|step| step[:floorType]}.uniq,
           }
         end
         render json: {
@@ -117,8 +117,10 @@ module Api
         status = params[:status]
         floor_number = params[:floor]
         step_name = params[:step_name]
+        floor_type = params[:floor_type]
         current_steps_progress = @stage.steps_progress
-        current_steps_progress[floor_number][step_name] = status
+        floor_type_progress = current_steps_progress.find{|step| step["floor_type"] == floor_type}
+        floor_type_progress["steps"][floor_number][step_name] = status
         @stage.save!
       end
 
