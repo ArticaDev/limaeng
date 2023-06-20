@@ -54,6 +54,7 @@ class Stage
   def current_total_percentage
     return 0 if current_steps_progress.blank?
     return 0 if stage_type.coeficient.blank?
+    return 0 if current_steps_progress.first["steps"].blank?
 
     finished_steps_count = 0
     total_steps_count = 0
