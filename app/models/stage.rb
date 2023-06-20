@@ -52,12 +52,22 @@ class Stage
   end
 
   def current_total_percentage
-    return 0 if current_steps_progress.map { |floor| floor.values.count }.sum.zero?
+    return 0 if current_steps_progress.blank?
+    return 0 if stage_type.coeficient.blank?
 
-    current_steps_progress.map do |floor|
-      floor.values.count('finished')
-    end.sum * 100 / current_steps_progress.map do |floor|
-                      floor.values.count
-                    end.sum
+    finished_steps_count = 0
+    total_steps_count = 0
+    
+    current_steps_progress.each do |floor|
+      floor["steps"].each do |step|
+        total_steps_count += step.size
+        step.each do |_, state|
+          finished_steps_count += 1 if state == "finished"
+        end
+      end
+    end
+    
+    percentage_finished = (finished_steps_count.to_f / total_steps_count)
+    percentage_finished * stage_type.coeficient
   end
 end
