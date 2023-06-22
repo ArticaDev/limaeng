@@ -8,6 +8,12 @@ class User
   field :email, type: String
   field :birth_date, type: String
   field :phone_number, type: String
+  field :profile_picture_name, type: String
+
+  def profile_picture_url
+    return nil if profile_picture_name.nil?
+    Amazon::AwsS3Service.new.file_url(profile_picture_name)
+  end
 
   def team_members
     ProjectMember.where(user_email: email)

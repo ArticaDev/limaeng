@@ -33,8 +33,10 @@ Rails.application.routes.draw do
       end
 
       resource :users do
+        post '/get_user_data', to: 'users#show'
         post '/get_projects', to: 'users#projects'
         post '/', to: 'users#create'
+        post '/upload-profile-picture', to: 'users#upload_profile_picture'
       end
 
       resource :documents do
