@@ -22,10 +22,9 @@ module Api
         @project.stages.each do |stage|
           stage.update(total_value: updated_budget[stage.stage_type.name])
         end
-        project_budget = Budget::GenerateProjectBudgetService.new(@project).call
-        @project.update(last_generated_budget: project_budget.to_json)
+        @project.update(last_generated_budget: updated_budget.to_json)
 
-        render json: project_budget, status: :ok
+        render json: updated_budget, status: :ok
       end
 
       private
