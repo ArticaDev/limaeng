@@ -51,7 +51,7 @@ class Stage
     StageType.find(stage_type_id)
   end
 
-  def current_total_percentage
+  def current_percentage
     return 0 if current_steps_progress.blank?
     return 0 if stage_type.coeficient.blank?
     return 0 if current_steps_progress.first["steps"].blank?
@@ -68,7 +68,10 @@ class Stage
       end
     end
     
-    percentage_finished = (finished_steps_count.to_f / total_steps_count)
-    percentage_finished * stage_type.coeficient
+   (finished_steps_count.to_f / total_steps_count)
+  end
+
+  def current_total_percentage
+    current_percentage * stage_type.coeficient
   end
 end
