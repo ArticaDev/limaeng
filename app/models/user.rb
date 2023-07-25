@@ -26,6 +26,7 @@ class User
         id: project.id.to_s,
         owner_name: project.owner_name,
         address_street: project.address_street,
+        name: project.name,
         isOwner: member.role == 'owner',
         member: member.role
       }
