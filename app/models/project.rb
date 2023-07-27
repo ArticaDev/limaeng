@@ -10,9 +10,6 @@ class Project
 
   field :name, type: String
 
-  field :owner_name, type: String
-  field :user_email, type: String
-
   field :address_cep, type: String
   field :address_city, type: String
   field :address_street, type: String
@@ -59,5 +56,9 @@ class Project
 
   def project_members
     ProjectMember.where(project_id: id.to_s)
+  end
+
+  def owner_name
+    project_members.find_by(role: 'owner').user.name
   end
 end

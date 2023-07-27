@@ -8,4 +8,10 @@ class ProjectMember
   field :project_id, type: String
   field :role, type: String
   field :job_title, type: String
+
+
+  def user 
+    User.find_by(email: user_email)
+  end
+
 end

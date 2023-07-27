@@ -3,10 +3,22 @@
 module Api
   module V1
     class UsersController < ApiController
-      before_action :set_user, only: %i[projects show upload_profile_picture]
+      before_action :set_user, only: %i[projects show upload_profile_picture update]
 
-      def show 
+      def show
         render json: user_data
+      end
+
+      def create
+        @user = User.create!(user_params)
+        render json: @user, status: :created
+      end
+
+      def update
+        new_email = params[:new_email]
+        update_project_relationships(new_email) if new_email != @user.email
+        @user.update!({ **user_params, email: new_email })
+        render json: @user, status: :ok
       end
 
       def upload_profile_picture
@@ -22,7 +34,7 @@ module Api
         UploadProfilePictureService.new(
           @user,
           file,
-          filename,
+          filename
         ).call
 
         file.close
@@ -31,17 +43,12 @@ module Api
         render json: user_data, status: :ok
       end
 
-      def user_data 
+      def user_data
         profile_picture = @user.profile_picture_url
-        user_data = {
+        {
           **@user.attributes.as_json,
           profile_picture:
         }
-      end
-
-      def create
-        @user = User.create!(user_params)
-        render json: @user, status: :created
       end
 
       def projects
@@ -49,6 +56,12 @@ module Api
       end
 
       private
+
+      def update_project_relationships(email)
+        @user.team_members.each do |team_member|
+          team_member.update!(user_email: email)
+        end
+      end
 
       def user_params
         params.permit(:name, :email, :birth_date, :phone_number)
