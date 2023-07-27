@@ -13,8 +13,8 @@ module Api
       def show
         progress_status = begin
           project_progress_status
-        rescue => exception
-          { error: exception.message }
+        rescue StandardError => e
+          { error: e.message }
         end
         project_data = {
           **@project.attributes.as_json.except('stages'),
@@ -27,9 +27,9 @@ module Api
       end
 
       def create
-        state = State.find_by!(abbreviation: 'SP')
+        state = State.find_by!(abbreviation: params[:address_state])
         @project = Project.create!(project_params.merge(state:))
-        ProjectMember.create!(user_email: project_params[:user_email],
+        ProjectMember.create!(user_email: params[:user_email],
                               project_id: @project.id, role: 'owner')
 
         render json: @project, status: :created
@@ -58,14 +58,14 @@ module Api
       end
 
       def project_members
-        members = @project.project_members.select{ |member| !member[:user_email].blank? }.map do |member|
+        members = @project.project_members.reject { |member| member[:user_email].present? }.map do |member|
           {
             email: member.user_email,
             role: member.role,
             job_title: member.job_title,
             name: User.find_by(email: member.user_email)&.name || member.user_email
           }
-        end.filter { |member| member[:email] != @project.user_email }
+        end.filter { |member| member[:role] != 'owner' }
 
         render json: members, status: :ok
       end
@@ -88,36 +88,39 @@ module Api
         duration = @project.duration_in_months
         monthly_situation = duration.times.map { 'on_time' }
         end_date = project_start_date + duration.months
-  
-        (project_start_date..end_date).select{|date| date.day == 1}.each do |date|
+        total_scheduled_percentage = 0
+
+        (project_start_date..end_date).select { |date| date.day == 1 }.each do |date|
           stage_index = (date - project_start_date).to_i / 30
           stage_index = stage_index.abs
 
           @project.stages.each do |stage|
             scheduled_percentage_until_now = stage.percentage_per_month[0..stage_index].sum
             current_percentage = stage.current_percentage * 100
-            
+            total_scheduled_percentage += scheduled_percentage_until_now * stage.stage_type.coeficient
+
             next if current_percentage >= scheduled_percentage_until_now
+
             monthly_situation[stage_index] = 'delayed'
-          end 
+          end
         end
 
         past_month_index = (past_month - project_start_date).to_i / 30
         is_on_time = monthly_situation[0..past_month_index].all? { |situation| situation == 'on_time' }
-        if is_on_time
-          months_ahead_or_behind = monthly_situation[past_month_index..-1].count 
-        else  
-          months_ahead_or_behind = monthly_situation[0..past_month_index].count { |situation| situation == 'delayed' }
-        end 
+        months_ahead_or_behind = if is_on_time
+                                   monthly_situation[past_month_index..].count
+                                 else
+                                   monthly_situation[0..past_month_index].count { |situation| situation == 'delayed' }
+                                 end
 
         situation = if is_on_time
-          months_ahead_or_behind > 0 ? 'ahead' : 'on_time'
-        else
-          'behind'
-        end
+                      months_ahead_or_behind.positive? ? 'ahead' : 'on_time'
+                    else
+                      'behind'
+                    end
 
-        { situation: situation, months_ahead_or_behind: months_ahead_or_behind }
-      end 
+        { situation:, months_ahead_or_behind:, total_scheduled_percentage: }
+      end
 
       private
 
@@ -146,7 +149,7 @@ module Api
           :address_number, :address_complement,
           :price_class, :has_parapent, :duration_in_months,
           :financial_institution, :start_date, :contract_date,
-          :user_email, :owner_name, floor_sizes: []
+          floor_sizes: []
         )
       end
     end
