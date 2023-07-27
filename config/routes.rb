@@ -16,6 +16,8 @@ Rails.application.routes.draw do
         delete '/:id', to: 'projects#destroy'
       end
 
+      resources :states, only: %i[index create]
+
       resource :stages do
         get '/types', to: 'stages#stage_types'
         get '/steps/:id', to: 'stages#stage_steps'
@@ -35,6 +37,7 @@ Rails.application.routes.draw do
       resource :users do
         post '/get_user_data', to: 'users#show'
         post '/get_projects', to: 'users#projects'
+        post '/update', to: 'users#update'
         post '/', to: 'users#create'
         post '/upload-profile-picture', to: 'users#upload_profile_picture'
       end

@@ -4,7 +4,7 @@ module Api
   module V1
     class StatesController < ApiController
       def index
-        states = State.all
+        states = State.all.map(&:abbreviation)
         render json: states, status: :ok
       end
 
