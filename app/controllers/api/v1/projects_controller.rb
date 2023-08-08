@@ -18,6 +18,7 @@ module Api
         end
         project_data = {
           **@project.attributes.as_json.except('stages'),
+          owner_name: @project.owner_name,
           months: months_array,
           progress_status:,
           total_project_percentage:
@@ -58,7 +59,7 @@ module Api
       end
 
       def project_members
-        members = @project.project_members.reject { |member| member[:user_email].present? }.map do |member|
+        members = @project.project_members.select { |member| member[:user_email].present? }.map do |member|
           {
             email: member.user_email,
             role: member.role,
@@ -66,7 +67,6 @@ module Api
             name: User.find_by(email: member.user_email)&.name || member.user_email
           }
         end.filter { |member| member[:role] != 'owner' }
-
         render json: members, status: :ok
       end
 
@@ -82,7 +82,7 @@ module Api
         render json: @project, status: :ok
       end
 
-      def project_progress_status
+      def project_progress_status        
         past_month = Date.today - 1.month
         project_start_date = @project.start_date
         duration = @project.duration_in_months
@@ -113,11 +113,15 @@ module Api
                                    monthly_situation[0..past_month_index].count { |situation| situation == 'delayed' }
                                  end
 
-        situation = if is_on_time
+        situation = if project_start_date > Date.today
+                      total_project_percentage.positive? ? 'ahead' : 'on_time' 
+                    elsif is_on_time
                       months_ahead_or_behind.positive? ? 'ahead' : 'on_time'
                     else
                       'behind'
                     end
+
+        total_scheduled_percentage = 0 if project_start_date > Date.today
 
         { situation:, months_ahead_or_behind:, total_scheduled_percentage: }
       end
