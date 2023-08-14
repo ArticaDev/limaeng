@@ -2,11 +2,12 @@
 
 module Amazon
   class AwsS3Service
-    def store_file(file_name, file_content)
+    def store_file(file_name, file_content, publicly_accessible = false)
       s3_client.put_object(
         bucket: aws_bucket,
         key: file_name,
-        body: file_content
+        body: file_content,
+        acl: publicly_accessible ? 'public-read' : 'private' 
       )
     end
 
@@ -18,7 +19,18 @@ module Amazon
       )
     end
 
+    def public_url(file_name)
+      s3_resource.bucket(aws_bucket).object(file_name).public_url
+    end
+
     private
+
+    def s3_resource
+      Aws::S3::Resource.new(
+        region: aws_region,
+        credentials: aws_credentials
+      )
+    end
 
     def s3_client
       Aws::S3::Client.new(
