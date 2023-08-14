@@ -49,6 +49,27 @@ module Api
         render json: response, status: :ok
       end
 
+      def upload_generic
+        decoded_file = Base64.decode64(params[:file_content])
+        filename = params[:filename]
+        file_ext = params[:file_type]
+
+        file = Tempfile.new("temp_#{filename}")
+        file.binmode
+        file.write(decoded_file)
+        file.rewind
+
+        url = UploadDocumentService.new(
+          file,
+          "#{filename}.#{file_ext}",
+        ).call
+
+        file.close
+        file.unlink
+
+        render json: { url: }, status: :ok
+      end
+
       def show
         render json: project_documents, status: :ok
       end
