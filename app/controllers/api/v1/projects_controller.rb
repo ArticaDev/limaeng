@@ -88,7 +88,11 @@ module Api
         duration = @project.duration_in_months
         monthly_situation = duration.times.map { 'on_time' }
         end_date = project_start_date + duration.months
-        total_scheduled_percentage = 0
+
+        past_month_index = ((past_month - project_start_date).to_i / 30)
+        total_scheduled_percentage = 100 * @project.stages.sum do |stage|
+          (stage.percentage_per_month[0..past_month_index].sum/100)*stage.stage_type.coeficient
+        end 
 
         (project_start_date..end_date).select { |date| date.day == 1 }.each do |date|
           stage_index = (date - project_start_date).to_i / 30
@@ -96,19 +100,17 @@ module Api
 
           @project.stages.each do |stage|
             scheduled_percentage_until_now = stage.percentage_per_month[0..stage_index].sum
-            current_percentage = stage.current_percentage * 100
-            total_scheduled_percentage += scheduled_percentage_until_now * stage.stage_type.coeficient
-
+            current_percentage = stage.current_percentage
             next if current_percentage >= scheduled_percentage_until_now
-
             monthly_situation[stage_index] = 'delayed'
+            break
           end
         end
 
-        past_month_index = (past_month - project_start_date).to_i / 30
+       
         is_on_time = monthly_situation[0..past_month_index].all? { |situation| situation == 'on_time' }
         months_ahead_or_behind = if is_on_time
-                                   monthly_situation[past_month_index..].count
+                                   monthly_situation[past_month_index..].count { |situation| situation == 'on_time' }
                                  else
                                    monthly_situation[0..past_month_index].count { |situation| situation == 'delayed' }
                                  end
