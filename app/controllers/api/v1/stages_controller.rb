@@ -49,9 +49,7 @@ module Api
 
       def month
         month = params[:month]
-        stage_index = (@project.start_date - Date.strptime(month, '%m-%y')).to_i / 30
-        stage_index = stage_index.abs
-
+        stage_index = ((@project.start_date - Date.strptime(month, '%m-%y')).to_f / 365 * 12).round.abs
         total_cost = 0
         month_stages = []
 
