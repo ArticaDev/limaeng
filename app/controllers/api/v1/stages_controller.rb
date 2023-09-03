@@ -15,8 +15,7 @@ module Api
         month = params[:month]
         percentage = params[:percentage]
 
-        stage_index = (@project.start_date - Date.strptime(month, '%m-%y')).to_i / 30
-        stage_index = stage_index.abs
+        stage_index = month_position(month)
 
         @stage.percentage_per_month[stage_index] = percentage.to_f if percentage
 
@@ -49,7 +48,7 @@ module Api
 
       def month
         month = params[:month]
-        stage_index = ((@project.start_date - Date.strptime(month, '%m-%y')).to_f / 365 * 12).round.abs
+        stage_index = month_position(month)
         total_cost = 0
         month_stages = []
 
@@ -120,6 +119,10 @@ module Api
       end
 
       private
+
+      def month_position(month)
+        ((@project.start_date - Date.strptime(month, '%m-%y')).to_f / 365 * 12).round.abs
+      end
 
       def months_array
         expected_end_date = @project.start_date + (@project.duration_in_months - 1).months
