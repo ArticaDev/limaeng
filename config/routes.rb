@@ -47,6 +47,7 @@ Rails.application.routes.draw do
         post '/upload/:id', to: 'documents#upload'
         post '/upload/json/:id', to: 'documents#upload_as_json'
         post '/upload_generic', to: 'documents#upload_generic'
+        post '/delete_file', to: 'documents#delete_file'
         get '/:id', to: 'documents#show'
       end
     end

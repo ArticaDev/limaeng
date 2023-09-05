@@ -3,7 +3,7 @@
 module Api
   module V1
     class DocumentsController < ApiController
-      before_action :set_project, only: %i[upload show upload_as_json]
+      before_action :set_project, only: %i[upload show upload_as_json delete_file]
 
       def upload
         file = params[:file]
@@ -72,6 +72,11 @@ module Api
 
       def show
         render json: project_documents, status: :ok
+      end
+
+      def delete_file
+        file_name = params[:filename]
+        DeleteFileService.new(@project.id.to_s, file_name).call
       end
 
       private

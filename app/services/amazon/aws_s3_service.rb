@@ -11,6 +11,13 @@ module Amazon
       )
     end
 
+    def delete_file(file_name)
+      s3_client.delete_object(
+        bucket: aws_bucket,
+        key: file_name
+      )
+    end
+
     def file_url(file_name)
       presigner.presigned_url(
         :get_object,
