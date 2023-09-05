@@ -11,6 +11,7 @@ class Stage
   field :percentage_per_month, type: Array, default: []
   field :status_per_month, type: Array, default: []
   field :steps_progress, type: Array, default: []
+  field :custom_coeficient, type: BigDecimal
 
   validate :valid_total_percentage
 
@@ -53,7 +54,6 @@ class Stage
 
   def current_percentage
     return 0 if current_steps_progress.blank?
-    return 0 if stage_type.coeficient.blank?
     return 0 if current_steps_progress.first["steps"].blank?
 
     finished_steps_count = 0
@@ -72,6 +72,11 @@ class Stage
   end
 
   def current_total_percentage
-    current_percentage * stage_type.coeficient
+    return 0 if coeficient.blank?
+    current_percentage * coeficient
+  end
+
+  def coeficient 
+    custom_coeficient || stage_type.coeficient
   end
 end

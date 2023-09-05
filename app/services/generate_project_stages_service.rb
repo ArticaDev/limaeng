@@ -23,6 +23,6 @@ class GenerateProjectStagesService
   end
 
   def stage_types
-    StageType.all
+    StageType.where(isDefault: true)
   end
 end

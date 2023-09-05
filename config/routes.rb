@@ -26,6 +26,7 @@ Rails.application.routes.draw do
         post '/month', to: 'stages#month'
         post '/all_percentage_per_month', to: 'stages#all_percentage_per_month'
         post '/progression', to: 'stages#stages_progression'
+        post '/create_custom_stage', to: 'stages#create_custom_stage'
         post '/', to: 'stages#stage'
       end
 

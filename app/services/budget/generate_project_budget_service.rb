@@ -24,7 +24,7 @@ module Budget
     end
 
     def stage_types
-      StageType.all.order_by(order: :asc)
+      StageType.where(isDefault: true).order_by(order: :asc)
     end
   end
 end

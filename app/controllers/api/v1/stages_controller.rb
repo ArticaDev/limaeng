@@ -4,7 +4,7 @@ module Api
   module V1
     class StagesController < ApiController
       before_action :set_project_and_stage, only: %i[update_stage stage update_stage_steps]
-      before_action :set_project, only: %i[month stages_progression stage_steps]
+      before_action :set_project, only: %i[month stages_progression stage_steps create_custom_stage]
 
       def stage_types
         @stage_types = StageType.all
@@ -116,6 +116,17 @@ module Api
         floor_type_progress = current_steps_progress.find{|step| step["floor_type"] == floor_type}
         floor_type_progress["steps"][floor_number][step_name] = status
         @stage.save!
+      end
+
+      def create_custom_stage
+        step_name = params[:step_name]
+        step_cost = params[:step_cost]
+
+        CreateCustomStepService.new(
+          @project,
+          step_name,
+          step_cost
+        ).call
       end
 
       private
