@@ -50,11 +50,7 @@ stage_types = [
   { 'coeficient' => ('0.045'), 'name' => 'Louças e Metais',
     :steps_description => [{ 'singleFloor' => false, 'steps' => ['Vasos sanitários e louças', 'Torneiras e metais'], 'floorType' => 'floor' }] },
   {  'coeficient' => ('0.013000000000000001'), 'name' => 'Complementos - limpeza geral e calafete',
-     :steps_description => [{ 'singleFloor' => true, 'steps' => ['Conferências Gerais', 'limpeza geral e calafete', 'Legalização'], 'floorType' => 'end' }] },
-  {  'coeficient' => ('0.0'), 'name' => 'Outros - Servicos complementares',
-     :steps_description => [{ 'singleFloor' => true, 'steps' => ['Muro de arrimo', 'Piscina', 'Paisagismo', 'Armarios'], 'floorType' => 'end' }] },
-  { 'name' => 'Outros', 'coeficient' => ('0'),
-    :steps_description => [{ 'singleFloor' => false, 'steps' => [], 'floorType' => 'floor' }] }
+     :steps_description => [{ 'singleFloor' => true, 'steps' => ['Conferências Gerais', 'limpeza geral e calafete', 'Legalização'], 'floorType' => 'end' }] }
 ]
 
 stage_types.each do |stage_type|
