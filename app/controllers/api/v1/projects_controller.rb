@@ -18,6 +18,7 @@ module Api
         end
         project_data = {
           **@project.attributes.as_json.except('stages'),
+          start_date: @project.start_date.strftime('%d-%m-%Y'),
           owner_name: @project.owner_name,
           months: months_array,
           progress_status:,
