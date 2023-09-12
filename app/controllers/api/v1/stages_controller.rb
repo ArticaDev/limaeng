@@ -145,8 +145,8 @@ module Api
 
       def set_project_and_stage
         @project = Project.find(params[:id])
-        stage_type_id = StageType.find_by(name: params[:stage_type]).id.to_s
-        @stage = @project.stages.find_by(stage_type_id:)
+        stage_name = params[:stage_type]
+        @stage = @project.stages.select { |stage| stage.stage_type.name == stage_name }.first
       end
 
       def set_project
