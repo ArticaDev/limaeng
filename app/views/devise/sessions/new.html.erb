@@ -9,12 +9,12 @@
               <%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => {:class => "space-y-4 md:space-y-6"}) do |f| %>
                   <div class="field">
                     <%= f.label :email, class: "text-white block text-sm font-medium"  %><br />
-                    <%= f.email_field :email, autofocus: true, placeholder: 'Your admin email', autocomplete: "email", class: "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5" %>
+                    <%= f.email_field :email, autofocus: true, placeholder: 'Seu email', autocomplete: "email", class: "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5" %>
                   </div>
 
                   <div class="field">
                     <%= f.label :password, 'Senha' ,class: "text-white block text-sm font-medium" %><br />
-                    <%= f.password_field :password, autocomplete: "current-password", placeholder: 'Your admin password', class: "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5" %>
+                    <%= f.password_field :password, autocomplete: "current-password", placeholder: 'Sua senha', class: "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5" %>
                   </div>
 
                   <div class="actions">
