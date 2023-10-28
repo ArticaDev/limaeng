@@ -74,8 +74,9 @@ Rails.application.configure do
   # Use a different logger for distributed setups.
   # require "syslog/logger"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
-  config.action_mailer.default_url_options = { host: 'https://www.adminobrafacil.articadev.com' }
-  config.hosts << "www.adminobrafacil.articadev.com"
+  config.action_mailer.default_url_options = { host: ENV['ROOT_URL'] }
+  config.hosts << ENV['ROOT_DOMAIN']
+  config.secret_key_base = ENV["SECRET_KEY_BASE"]
 
   if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new($stdout)
