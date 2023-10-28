@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   namespace :api do
@@ -53,5 +54,6 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: 'home#index'
+  get '/admin', to: redirect('/admin/state')
+  root to: redirect('/admin')
 end
