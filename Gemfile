@@ -32,11 +32,12 @@ gem 'bootsnap', require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
+  gem 'rspec-rails', '~> 6.0.0'
+  gem 'byebug', '~> 11.1'
 end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
-  gem 'byebug', '~> 11.1'
   gem 'rubocop', '~> 1.41'
   gem 'rubocop-rails', '~> 2.17'
   gem 'web-console'
@@ -58,3 +59,20 @@ gem 'mongoid', '~> 8.0'
 gem "aws-sdk-s3", "~> 1.118"
 
 gem "dotenv-rails", "~> 2.8", :groups => [:development, :test]
+
+gem "factory_bot", "~> 6.2"
+
+gem "faker", "~> 3.2"
+
+gem "rails_admin", "~> 3.1"
+gem "sassc-rails"
+
+gem "kaminari-mongoid", "~> 1.0"
+
+gem "rails_admin-i18n"
+
+gem "rails-i18n", "~> 7.0"
+
+gem "devise", "~> 4.9"
+
+gem "tailwindcss-rails", "~> 2.0"
