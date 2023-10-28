@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  devise_for :admins
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -54,6 +55,5 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/admin', to: redirect('/admin/state')
-  root to: redirect('/admin')
+  root to: redirect('/admin/state')
 end
