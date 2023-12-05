@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         post '/add_member', to: 'projects#add_member'
         get '/members/:id', to: 'projects#project_members'
         post '/remove_member', to: 'projects#remove_member'
+        post '/update_member', to: 'projects#update_member'
         get '/', to: 'projects#index'
         post '/', to: 'projects#create'
         get '/:id', to: 'projects#show'
