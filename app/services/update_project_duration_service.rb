@@ -1,7 +1,7 @@
 class UpdateProjectDurationService
     def initialize(project_id, new_duration)
         @project = Project.find(project_id)
-        @new_duration = new_duration
+        @new_duration = new_duration.to_i
     end
     def call
         if @new_duration > @project.duration_in_months
@@ -9,7 +9,7 @@ class UpdateProjectDurationService
         else
             decrease_project_duration()
         end
-        @project.update(duration_in_months: new_duration)
+        @project.update(duration_in_months: @new_duration)
     end
 
     private 
