@@ -27,6 +27,16 @@ module Api
         render json: updated_budget, status: :ok
       end
 
+      def simulate 
+        cep = params[:cep]
+        floor_sizes = params[:floor_sizes]
+        price_standard = params[:price_standard]
+
+        budget = Budget::SimulateProjectBudgetService.new(cep, floor_sizes, price_standard).call
+
+        render json: budget, status: :ok
+      end
+
       private
 
       def generate_budget

@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       resource :budgets do
         get '/:id', to: 'budgets#show'
         post '/update/:id', to: 'budgets#update'
+        post '/simulate', to: 'budgets#simulate'
       end
 
       resource :users do
