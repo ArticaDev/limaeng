@@ -3,7 +3,7 @@
 module Api
   module V1
     class ProjectsController < ApiController
-      before_action :set_project, only: %i[show update destroy project_members add_member remove_member]
+      before_action :set_project, only: %i[show update destroy project_members add_member remove_member update_member]
 
       def index
         @projects = Project.all
@@ -46,6 +46,18 @@ module Api
                                               project_id: @project.id, role:, job_title:)
 
         render json: project_member, status: :created
+      end
+
+      def update_member
+        email = params[:user_email]
+        role = params[:role]
+
+        project_member = ProjectMember.find_by(user_email: email,
+                                               project_id: @project.id)
+
+        project_member.update!(role:)
+
+        render json: project_member, status: :ok
       end
 
       def remove_member
