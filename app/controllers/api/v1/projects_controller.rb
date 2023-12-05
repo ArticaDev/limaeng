@@ -3,7 +3,7 @@
 module Api
   module V1
     class ProjectsController < ApiController
-      before_action :set_project, only: %i[show update destroy project_members add_member remove_member update_project_duration]
+      before_action :set_project, only: %i[show update destroy project_members add_member remove_member]
 
       def index
         @projects = Project.all
@@ -72,14 +72,11 @@ module Api
       end
 
       def update
+        update_project_duration
+
         @project.update(project_params)
 
         render json: @project, status: :ok
-      end
-
-      def update_project_duration
-        new_duration = params[:new_duration]
-        UpdateProjectDurationService.new(@project.id, new_duration).call
       end
 
       def destroy
@@ -93,6 +90,15 @@ module Api
       end
 
       private
+
+      def update_project_duration
+        new_duration = params[:duration_in_months] 
+        
+        return if new_duration.blank?
+        return if new_duration == @project.duration_in_months
+        
+        UpdateProjectDurationService.new(@project.id, new_duration).call
+      end
 
       def total_project_percentage
         return 0 if @project.stages.empty?
