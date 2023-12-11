@@ -87,7 +87,8 @@ module Api
             file_name: doc.name,
             file_type: doc.file_type,
             file_category: doc.category,
-            url: doc.url
+            url: doc.url,
+            file_key: doc.file_key
           }
         end
       end
