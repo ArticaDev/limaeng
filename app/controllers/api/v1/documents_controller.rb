@@ -3,7 +3,7 @@
 module Api
   module V1
     class DocumentsController < ApiController
-      before_action :set_project, only: %i[upload show upload_as_json delete_file]
+      before_action :set_project, only: %i[upload show upload_as_json delete_file update_file_name]
 
       def upload
         file = params[:file]
@@ -68,6 +68,14 @@ module Api
         file.unlink
 
         render json: { url: }, status: :ok
+      end
+
+      def update_file_name
+        file_key = params[:file_key]
+        new_file_name = params[:name]
+        @project.documents.find_by(file_key: file_key)&.update(name: new_file_name)
+
+        render json: { message: 'File name updated successfully' }, status: :ok
       end
 
       def show
