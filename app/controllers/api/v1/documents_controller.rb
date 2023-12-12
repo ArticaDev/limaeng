@@ -96,7 +96,8 @@ module Api
             file_type: doc.file_type,
             file_category: doc.category,
             url: doc.url,
-            file_key: doc.file_key
+            file_key: doc.file_key,
+            created_at: doc.created_at.strftime('%d/%m/%Y')
           }
         end
       end
