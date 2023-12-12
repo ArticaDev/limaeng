@@ -50,6 +50,7 @@ Rails.application.routes.draw do
       resource :documents do
         post '/upload/:id', to: 'documents#upload'
         post '/upload/json/:id', to: 'documents#upload_as_json'
+        post '/update_file_name/:id', to: 'documents#update_file_name'
         post '/upload_generic', to: 'documents#upload_generic'
         post '/delete_file', to: 'documents#delete_file'
         get '/:id', to: 'documents#show'
