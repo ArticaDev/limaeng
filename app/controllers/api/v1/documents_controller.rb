@@ -83,8 +83,8 @@ module Api
       end
 
       def delete_file
-        file_name = params[:filename]
-        DeleteFileService.new(@project.id.to_s, file_name).call
+        file_key = params[:file_key]
+        DeleteFileService.new(@project.id.to_s, file_key).call
       end
 
       private
