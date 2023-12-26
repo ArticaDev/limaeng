@@ -25,7 +25,7 @@ stage_types = [
                            { 'singleFloor' => false, 'steps' => ['Impermeabilização áreas molhadas'],
                              'floorType' => 'floor' }] },
   { 'coeficient' => ('0.08'), 'name' => 'Revestimentos Internos',
-    :steps_description => [{ 'singleFloor' => false, 'steps' => ['Chapisco Interno', 'Revestimento Ceramico - Parede', 'Emassamento parede', 'Reboco interno'], 'floorType' => 'floor' }] },
+    :steps_description => [{ 'singleFloor' => false, 'steps' => ['Chapisco Interno', 'Emassamento parede', 'Reboco interno', 'Azulejo'], 'floorType' => 'floor' }] },
   { 'coeficient' => ('0.01'), 'name' => 'Forros',
     :steps_description => [{ 'singleFloor' => false, 'steps' => ['Forro gesso'], 'floorType' => 'floor' }] },
   { 'coeficient' => ('0.045'), 'name' => 'Revestimentos Externos',

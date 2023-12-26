@@ -5,7 +5,7 @@ states_data = [
     { name: 'BOA VISTA', abbreviation: 'RR', low_price_per_meter: 2.21628, medium_price_per_meter: 2.21628, high_price_per_meter: 2.40075 },
     { name: 'BRASILIA', abbreviation: 'DF', low_price_per_meter: 2.28671, medium_price_per_meter: 2.30420, high_price_per_meter: 2.67007 },
     { name: 'CAMPO GRANDE', abbreviation: 'MS', low_price_per_meter: 2.12012, medium_price_per_meter: 2.12012, high_price_per_meter: 2.44869 },
-    { name: 'CUIABA', abbreviation: 'MG', low_price_per_meter: 2.18223, medium_price_per_meter: 2.23937, high_price_per_meter: 2.46400 },
+    { name: 'CUIABA', abbreviation: 'MT', low_price_per_meter: 2.18223, medium_price_per_meter: 2.23937, high_price_per_meter: 2.46400 },
     { name: 'CURITIBA', abbreviation: 'PR', low_price_per_meter: 2.35446, medium_price_per_meter: 2.35446, high_price_per_meter: 2.80518 },
     { name: 'FLORIANOPOLIS', abbreviation: 'SC', low_price_per_meter: 2.52887, medium_price_per_meter: 2.52887, high_price_per_meter: 3.13183 },
     { name: 'FORTALEZA', abbreviation: 'CE', low_price_per_meter: 2.13169, medium_price_per_meter: 2.13992, high_price_per_meter: 2.46496 },
