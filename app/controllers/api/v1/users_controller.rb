@@ -3,7 +3,7 @@
 module Api
   module V1
     class UsersController < ApiController
-      before_action :set_user, only: %i[projects show upload_profile_picture update]
+      before_action :set_user, only: %i[projects show upload_profile_picture update destroy]
 
       def show
         render json: user_data
@@ -53,6 +53,17 @@ module Api
 
       def projects
         render json: @user.projects
+      end
+
+      def destroy
+        @user.projects.each do |project|
+          Project.find(project[:id]).destroy
+        end
+        @user.team_members.destroy_all
+
+        @user.destroy
+
+        render json: @user, status: :ok
       end
 
       private

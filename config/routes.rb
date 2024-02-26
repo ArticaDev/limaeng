@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       end
 
       resource :users do
+        delete '/', to: 'users#destroy'
         post '/get_user_data', to: 'users#show'
         post '/get_projects', to: 'users#projects'
         post '/update', to: 'users#update'
