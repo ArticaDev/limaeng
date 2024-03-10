@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
+  get 'delete_account', to: 'users#delete_account'
+
   namespace :api do
     namespace :v1 do
       resource :projects do
@@ -40,6 +42,7 @@ Rails.application.routes.draw do
       end
 
       resource :users do
+        get '/', to: 'users#index'
         delete '/', to: 'users#destroy'
         post '/get_user_data', to: 'users#show'
         post '/get_projects', to: 'users#projects'

@@ -5,6 +5,11 @@ module Api
     class UsersController < ApiController
       before_action :set_user, only: %i[projects show upload_profile_picture update destroy]
 
+      def index 
+        @users = User.all
+        render json: @users
+      end
+
       def show
         render json: user_data
       end
