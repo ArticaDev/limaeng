@@ -92,6 +92,7 @@ module Api
       end
 
       def destroy
+        @project.project_members.destroy_all
         @project.destroy
 
         render json: @project, status: :ok
