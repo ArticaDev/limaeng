@@ -21,8 +21,13 @@
     <div class="max-w-md w-full space-y-8">
         <div>
             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                Request Account Deletion
+                Request Account Deletion for Em Obras App
             </h2>
+        </div>
+        <div class="text-center">
+            <p class="text-sm text-gray-600">
+                This action cannot be undone. All your data in the "Em Obras" app will be permanently deleted.
+            </p>
         </div>
         <form class="mt-8 space-y-6" on:submit|preventDefault={requestDeletion}>
             <input type="hidden" name="remember" value="true">
