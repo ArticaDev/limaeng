@@ -14,4 +14,8 @@ class ProjectMember
     User.find_by(email: user_email)
   end
 
+  def project
+    Project.find(project_id)
+  end
+
 end

@@ -45,6 +45,8 @@ module Api
         project_member = ProjectMember.create(user_email: email,
                                               project_id: @project.id, role:, job_title:)
 
+        ProjectMailer.with(project_member: project_member).invite_member.deliver_now
+
         render json: project_member, status: :created
       end
 
