@@ -4,5 +4,4 @@ class Checklist
 
   belongs_to :user
 
-  field :userID, type: Integer
 end

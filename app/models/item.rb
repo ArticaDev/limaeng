@@ -2,8 +2,8 @@ class Item
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  has_one :status
   belongs_to :categories
 
-  field :item_name, type: String
-  field :categories, type: Integer
+  field :name, type: String
 end
