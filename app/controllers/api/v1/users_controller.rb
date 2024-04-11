@@ -14,9 +14,13 @@ module Api
         render json: user_data
       end
 
-      def find_one
-        user_id = User.all
-        render json: user_id[1]
+      def find_checklist
+        @id = params[:id]
+        user = User.all
+        user_id = user[@id.to_i].id.to_s
+        name = 'Obra facil'
+        checklist = Checklist.where(user_id: '66183b2e2ea753001a61ecbe')
+        render json: checklist
       end
 
       def create

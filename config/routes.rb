@@ -42,7 +42,7 @@ Rails.application.routes.draw do
       end
 
       resource :users do
-        get '/a', to: 'users#find_one'
+        get '/:id', to: 'users#find_checklist'
         get '/', to: 'users#index'
         delete '/', to: 'users#destroy'
         post '/get_user_data', to: 'users#show'
