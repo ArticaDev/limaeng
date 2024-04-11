@@ -42,6 +42,7 @@ Rails.application.routes.draw do
       end
 
       resource :users do
+        get '/a', to: 'users#find_one'
         get '/', to: 'users#index'
         delete '/', to: 'users#destroy'
         post '/get_user_data', to: 'users#show'
@@ -66,9 +67,16 @@ Rails.application.routes.draw do
 
       resource :categories do
         get '/', to: 'categories#index'
+        post '/', to: 'categories#create'
       end
 
+      resource :items do
+        get '/', to: 'items#index'
+      end
 
+      resource :status do
+        get '/', to: 'status#index'
+      end
     end
   end
 
