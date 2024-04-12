@@ -14,12 +14,26 @@ module Api
         render json: user_data
       end
 
-      def find_checklist
+      def checklists
+        @id = params[:id]
+        checklist = Checklist.where(user_id: @id)
+        render json: checklist
+      end
+
+      def delete_checklist
         @id = params[:id]
         user = User.all
         user_id = user[@id.to_i].id.to_s
-        name = 'Obra facil'
-        checklist = Checklist.where(user_id: '66183b2e2ea753001a61ecbe')
+        checklist = Checklist.where(user_id: user_id)
+        render json: checklist
+        #create a method for delete just one checklist
+      end
+
+      def create_checklist
+        @id = params[:id]
+        user = User.all
+        user_id = user[@id.to_i].to_s
+        checklist = Checklist.create!(params)
         render json: checklist
       end
 

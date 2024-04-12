@@ -42,14 +42,15 @@ Rails.application.routes.draw do
       end
 
       resource :users do
-        get '/:id', to: 'users#find_checklist'
         get '/', to: 'users#index'
+        get '/:id', to: 'users#checklists'
         delete '/', to: 'users#destroy'
         post '/get_user_data', to: 'users#show'
         post '/get_projects', to: 'users#projects'
         post '/update', to: 'users#update'
         post '/', to: 'users#create'
         post '/upload-profile-picture', to: 'users#upload_profile_picture'
+        post '/:id', to: 'users#create_checklist'
       end
 
       resource :documents do
