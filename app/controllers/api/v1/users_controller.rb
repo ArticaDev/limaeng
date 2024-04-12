@@ -14,6 +14,18 @@ module Api
         render json: user_data
       end
 
+      def create
+        @user = User.create!(user_params)
+        render json: @user, status: :created
+      end
+
+      def create_checklist
+        user = User.find(params[:user_id])
+        checklist = Checklist.create!(name: params[:name], user_id: user.id)
+        render json: checklist
+      end
+
+
       def checklists
         @id = params[:id]
         checklist = Checklist.where(user_id: @id)
@@ -22,24 +34,9 @@ module Api
 
       def delete_checklist
         @id = params[:id]
-        user = User.all
-        user_id = user[@id.to_i].id.to_s
-        checklist = Checklist.where(user_id: user_id)
-        render json: checklist
-        #create a method for delete just one checklist
-      end
-
-      def create_checklist
-        @id = params[:id]
-        user = User.all
-        user_id = user[@id.to_i].to_s
-        checklist = Checklist.create!(params)
-        render json: checklist
-      end
-
-      def create
-        @user = User.create!(user_params)
-        render json: @user, status: :created
+        checklist = Checklist.where(_id: @id)
+        checklist.destroy
+        render json: "Checklist deletada"
       end
 
       def update
