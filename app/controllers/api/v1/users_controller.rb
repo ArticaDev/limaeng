@@ -5,7 +5,7 @@ module Api
     class UsersController < ApiController
       before_action :set_user, only: %i[projects show upload_profile_picture update destroy]
 
-      def index 
+      def index
         @users = User.all
         render json: @users
       end
@@ -17,6 +17,26 @@ module Api
       def create
         @user = User.create!(user_params)
         render json: @user, status: :created
+      end
+
+      def create_checklist
+        user = User.find(params[:user_id])
+        checklist = Checklist.create!(name: params[:name], user_id: user.id)
+        render json: checklist
+      end
+
+
+      def checklists
+        @id = params[:id]
+        checklist = Checklist.where(user_id: @id)
+        render json: checklist
+      end
+
+      def delete_checklist
+        @id = params[:id]
+        checklist = Checklist.where(_id: @id)
+        checklist.destroy
+        render json: "Checklist deletada"
       end
 
       def update
