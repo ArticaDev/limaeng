@@ -51,7 +51,6 @@ Rails.application.routes.draw do
         post '/update', to: 'users#update'
         post '/', to: 'users#create'
         post '/upload-profile-picture', to: 'users#upload_profile_picture'
-        post '/create_checklist', to: 'users#create_checklist'
       end
 
       resource :documents do
