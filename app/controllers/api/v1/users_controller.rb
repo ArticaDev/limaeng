@@ -27,9 +27,35 @@ module Api
 
 
       def checklists
-        @id = params[:id]
-        checklist = Checklist.where(user_id: @id)
+        id = params[:id]
+        checklist = Checklist.where(user_id: id)
         render json: checklist
+      end
+
+      def items(categories)
+        items = []
+        categories.each do |category|
+          items << Item.where(category_id: category.id)
+        end
+        return items
+      end
+
+      def checklist_body(categories, items)
+        checklist_body = []
+        categories.each do |category|
+          items.each do |item|
+            checklist_body << [category, item]
+          end
+        end
+        return checklist_body
+      end
+
+      def checklist
+        id = params[:id]
+        checklist = Checklist.find(id)
+        categories = Category.where(checklists_id: id)
+        render json: checklist_body(categories, items(categories))
+        # render json: checklist = { :"Nome" => checklist.name, :"Categoria" =>categories[0], :"Items" => items}
       end
 
       def delete_checklist
