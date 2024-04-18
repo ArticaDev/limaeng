@@ -42,9 +42,10 @@ module Api
 
       def checklist_body(categories, items)
         checklist_body = []
+        count = 0
         categories.each do |category|
           items.each do |item|
-            checklist_body << [category, item]
+            checklist_body << category.class
           end
         end
         return checklist_body
