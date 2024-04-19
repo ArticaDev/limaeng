@@ -47,9 +47,11 @@ module Api
           checklist_body << x
           items.each do |column|
             column.each do |item|
+              item_array = []
               if x.id.to_s == item.category_id.to_s
-                checklist_body << item
+                item_array << item
               end
+              checklist_body << item_array
             end
           end
           count += 1
