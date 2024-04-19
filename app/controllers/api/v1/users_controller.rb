@@ -43,10 +43,16 @@ module Api
       def checklist_body(categories, items)
         checklist_body = []
         count = 0
-        categories.each do |category|
-          items.each do |item|
-            checklist_body << category.class
+        categories.each do |x|
+          checklist_body << x
+          items.each do |column|
+            column.each do |item|
+              if x.id.to_s == item.category_id.to_s
+                checklist_body << item
+              end
+            end
           end
+          count += 1
         end
         return checklist_body
       end
