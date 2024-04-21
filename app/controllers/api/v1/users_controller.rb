@@ -51,6 +51,7 @@ module Api
               if x.id.to_s == item.category_id.to_s
                 item_array << item
               end
+              next if item_array == []
               checklist_body << item_array
             end
           end
