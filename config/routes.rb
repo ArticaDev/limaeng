@@ -47,6 +47,7 @@ Rails.application.routes.draw do
         get '/checklist/:id', to: 'users#checklist'
         delete '/', to: 'users#destroy'
         delete '/delete_checklist/:id', to: 'users#delete_checklist'
+        post 'item/:id', to: 'users#item'
         post '/get_user_data', to: 'users#show'
         post '/get_projects', to: 'users#projects'
         post '/update', to: 'users#update'

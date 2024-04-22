@@ -75,6 +75,15 @@ module Api
         render json: "Checklist deletada"
       end
 
+      def item
+        id = params[:id]
+        item = Item.find(id)
+        if params[:name] == "não feito" || params[:name] == "feito" || params[:name] == "parcialmente feito"
+          item.update(name: params[:name])
+        end
+        render json: item
+      end
+
       def update
         new_email = params[:new_email]
         update_project_relationships(new_email) if new_email != @user.email
