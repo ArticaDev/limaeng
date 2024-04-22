@@ -72,10 +72,13 @@ Rails.application.routes.draw do
       resource :categories do
         get '/', to: 'categories#index'
         post '/', to: 'categories#create'
+        post '/:id', to: 'categories#update'
+        delete '/', to: 'categories#destroy'
       end
 
       resource :items do
         get '/', to: 'items#index'
+        post '/create', to: 'items#create'
       end
 
       resource :status do
