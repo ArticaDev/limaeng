@@ -19,11 +19,18 @@ module Api
         render json: @user, status: :created
       end
 
+      # def create_checklist
+      #   user = User.find(params[:user_id])
+      #   checklist = Checklist.create!(name: params[:name], user_id: user.id)
+      #   render json: checklist
+      # end
       def create_checklist
         user = User.find(params[:user_id])
-        checklist = Checklist.create!(name: params[:name], user_id: user.id)
-        render json: checklist
+        categories = CategoryType.all
+
+        render json: categories
       end
+
 
 
       def checklists
