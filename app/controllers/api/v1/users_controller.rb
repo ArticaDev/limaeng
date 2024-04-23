@@ -50,39 +50,20 @@ module Api
         render json: checklist
       end
 
-      def items(categories)
-        items = []
-        categories.each do |category|
-          items << Item.where(category_id: category.id)
-        end
-        return items
-      end
-
-      def checklist_body(categories, items)
-        checklist_body = []
-        count = 0
-        categories.each do |x|
-          checklist_body << x
-          items.each do |column|
-            column.each do |item|
-              item_array = []
-              if x.id.to_s == item.category_id.to_s
-                item_array << item
-              end
-              next if item_array == []
-              checklist_body << item_array
-            end
-          end
-          count += 1
-        end
-        return checklist_body
-      end
-
       def checklist
         id = params[:id]
         checklist = Checklist.find(id)
-        categories = Category.where(checklists_id: id)
-        render json: checklist_body(categories, items(categories))
+        categories = Category.where(checklist_id: id)
+        items = Item.all
+        count = 0
+        categories_body = []
+        categories.each do |category|
+          categories_body << category
+          item = items.where(category_id: category.id.to_s)
+          categories_body[count][:items] = item
+          count += 1
+        end
+        render json: categories_body
         # render json: checklist = { :"Nome" => checklist.name, :"Categoria" =>categories[0], :"Items" => items}
       end
 
