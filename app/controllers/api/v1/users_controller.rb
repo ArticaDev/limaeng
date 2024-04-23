@@ -35,8 +35,8 @@ module Api
 
           item_array = items_type.where(category_type_id: category_type.id.to_s)
           item_array.each do |item|
-            item = Item.create!(category_id: category.id, item_type_id: item.id.to_s)
-            status = Status.create!(item_id: item.id, status: "não feito")
+            item = Item.create!(category_id: category.id, item_type_id: item.id.to_s, status: "não feito")
+            # status = Status.create!(item_id: item.id, status: "não feito")
           end
         end
         render json: "Checklist Criada"
@@ -54,13 +54,16 @@ module Api
         id = params[:id]
         checklist = Checklist.find(id)
         categories = Category.where(checklist_id: id)
+        category_type = CategoryType.all
         items = Item.all
         count = 0
         categories_body = []
         categories.each do |category|
           categories_body << category
+          name = category_type.where(id: category.category_type_id)
           item = items.where(category_id: category.id.to_s)
           categories_body[count][:items] = item
+          categories_body[count][:name] = name[0].name
           count += 1
         end
         render json: categories_body
@@ -76,12 +79,11 @@ module Api
 
       def item
         id = params[:id]
-        item = Item.find(id)
-        if params[:name] == "não feito" || params[:name] == "feito" || params[:name] == "parcialmente feito"
-          item.update(name: params[:name])
-        end
-        render json: item
+        @item = Item.find(id)
+
+        render json: @item
       end
+
 
       def update
         new_email = params[:new_email]

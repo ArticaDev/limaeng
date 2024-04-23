@@ -7,4 +7,5 @@ class Category
 
   field :category_type_id, type: BSON::ObjectId
   field :items,type: Array
+  field :name, type: String
 end
