@@ -32,14 +32,14 @@ module Api
         checklist_body = []
         count = 0
         categories_type.each do |category_type|
-          Category.create!(checklist_id: checklist.id, category_type_id: category_type.id)
+          category = Category.create!(checklist_id: checklist.id, category_type_id: category_type.id)
 
           item_array = items_type.where(category_type_id: category_type.id.to_s)
           item_array.each do |item|
-            Item.create!(category_id: "66281963b142500008193f90", item_type_id: item.id.to_s)
+            Item.create!(category_id: category.id, item_type_id: item.id.to_s)
           end
         end
-        render json: "Checklist"
+        render json: "Checklist Criada"
       end
 
 
