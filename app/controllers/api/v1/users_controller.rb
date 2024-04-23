@@ -30,6 +30,7 @@ module Api
         items_type = ItemType.all
         item = []
         categories_type.each do |category_type|
+
         end
         item_category = items_type.where(category_type_id: "6626e1d8b14250001a8b0daf")
         render json: item_category
