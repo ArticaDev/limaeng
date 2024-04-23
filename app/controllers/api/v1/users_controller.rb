@@ -28,12 +28,17 @@ module Api
         user = User.find(params[:user_id])
         categories_type = CategoryType.all
         items_type = ItemType.all
+        checklist = []
         item = []
+        count = 0
         categories_type.each do |category_type|
-
+          checklist << category_type
+          id = category_type.id
+          item = items_type.where(category_type_id: id)
+          checklist[count][:item] = item
+          count += 1
         end
-        item_category = items_type.where(category_type_id: "6626e1d8b14250001a8b0daf")
-        render json: item_category
+        render json: checklist
 
       end
 
