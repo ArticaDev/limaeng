@@ -26,9 +26,14 @@ module Api
       # end
       def create_checklist
         user = User.find(params[:user_id])
-        categories = CategoryType.all
+        categories_type = CategoryType.all
+        items_type = ItemType.all
+        item = []
+        categories_type.each do |category_type|
+        end
+        item_category = items_type.where(category_type_id: "6626e1d8b14250001a8b0daf")
+        render json: item_category
 
-        render json: categories
       end
 
 
