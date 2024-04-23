@@ -26,20 +26,20 @@ module Api
       # end
       def create_checklist
         user = User.find(params[:user_id])
+        checklist = Checklist.create!(name: params[:name], user_id: params[:user_id])
         categories_type = CategoryType.all
         items_type = ItemType.all
-        checklist = []
-        item = []
+        checklist_body = []
         count = 0
         categories_type.each do |category_type|
-          checklist << category_type
-          id = category_type.id
-          item = items_type.where(category_type_id: id)
-          checklist[count][:item] = item
-          count += 1
-        end
-        render json: checklist
+          Category.create!(checklist_id: checklist.id, category_type_id: category_type.id)
 
+          item_array = items_type.where(category_type_id: category_type.id.to_s)
+          item_array.each do |item|
+            Item.create!(category_id: "66281963b142500008193f90", item_type_id: item.id.to_s)
+          end
+        end
+        render json: "Checklist"
       end
 
 
