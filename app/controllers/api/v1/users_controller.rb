@@ -61,13 +61,15 @@ module Api
         categories_body = []
         a = []
         categories.each do |category|
+          category.items.each do |i|
+            item_count = 0
+            item = items_type.where(id: i.item_type_id)
+            i.name = item[item_count].name
+            item_count += 1
+          end
+
           categories_body << category
           name = category_type.where(id: category.category_type_id)
-          items.each do |i|
-            item = items.where(item_type_id: i.id.to_s)
-            item_name = items_type.where(id: i.item_type_id)[0].name
-            i[:name] = item_name
-          end
           categories_body[count][:name] = name[0].name
           count += 1
         end
