@@ -55,14 +55,19 @@ module Api
         checklist = Checklist.find(id)
         categories = Category.where(checklist_id: id)
         category_type = CategoryType.all
+        items_type = ItemType.all
         items = Item.all
         count = 0
         categories_body = []
+        a = []
         categories.each do |category|
           categories_body << category
           name = category_type.where(id: category.category_type_id)
-          item = items.where(category_id: category.id.to_s)
-          categories_body[count][:items] = item
+          items.each do |i|
+            item = items.where(item_type_id: i.id.to_s)
+            item_name = items_type.where(id: i.item_type_id)[0].name
+            i[:name] = item_name
+          end
           categories_body[count][:name] = name[0].name
           count += 1
         end
@@ -80,7 +85,9 @@ module Api
       def item
         id = params[:id]
         @item = Item.find(id)
-
+        if params[:status] == "feito" || params[:status] == "não feito" || params[:status] == "parcialmente feito"
+          @item.update!(status: params[:status])
+        end
         render json: @item
       end
 
