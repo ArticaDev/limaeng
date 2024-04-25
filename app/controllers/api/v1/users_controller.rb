@@ -19,24 +19,18 @@ module Api
         render json: @user, status: :created
       end
 
-      # def create_checklist
-      #   user = User.find(params[:user_id])
-      #   checklist = Checklist.create!(name: params[:name], user_id: user.id)
-      #   render json: checklist
-      # end
+
       def create_checklist
         user = User.find(params[:user_id])
         checklist = Checklist.create!(name: params[:name], user_id: params[:user_id])
         categories_type = CategoryType.all
         items_type = ItemType.all
-        count = 0
         categories_type.each do |category_type|
           category = Category.create!(checklist_id: checklist.id, category_type_id: category_type.id)
 
           item_array = items_type.where(category_type_id: category_type.id.to_s)
           item_array.each do |item|
-            item = Item.create!(category_id: category.id, item_type_id: item.id.to_s, status: "não feito")
-            # status = Status.create!(item_id: item.id, status: "não feito")
+            item = Item.create!(category_id: category.id, item_type_id: item.id.to_s, status: "not done")
           end
         end
         render json: "Checklist Criada"
@@ -74,7 +68,6 @@ module Api
           count += 1
         end
         render json: categories_body
-        # render json: checklist = { :"Nome" => checklist.name, :"Categoria" =>categories[0], :"Items" => items}
       end
 
       def delete_checklist
@@ -87,7 +80,7 @@ module Api
       def item
         id = params[:id]
         @item = Item.find(id)
-        if params[:status] == "feito" || params[:status] == "não feito" || params[:status] == "parcialmente feito"
+        if params[:status] == "done" || params[:status] == "not done" || params[:status] == "partially done"
           @item.update!(status: params[:status])
         end
         render json: @item
