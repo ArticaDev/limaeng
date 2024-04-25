@@ -43,17 +43,12 @@ Rails.application.routes.draw do
 
       resource :users do
         get '/', to: 'users#index'
-        get '/checklists/:id', to: 'users#checklists'
-        get '/checklist/:id', to: 'users#checklist'
         delete '/', to: 'users#destroy'
-        delete '/delete_checklist/:id', to: 'users#delete_checklist'
-        post 'item/:id', to: 'users#item'
         post '/get_user_data', to: 'users#show'
         post '/get_projects', to: 'users#projects'
         post '/update', to: 'users#update'
         post '/', to: 'users#create'
         post '/upload-profile-picture', to: 'users#upload_profile_picture'
-        post '/create_checklist', to: 'users#create_checklist'
       end
 
       resource :documents do
@@ -66,7 +61,10 @@ Rails.application.routes.draw do
       end
 
       resource :checklists do
-        get '/', to: 'checklists#index'
+        get '/user/:id', to: 'checklists#checklists'
+        get '/:id', to: 'checklists#checklist'
+        delete '/:id', to: 'checklists#destroy'
+        post '/', to: 'checklists#create'
       end
 
       resource :categories do
@@ -79,10 +77,7 @@ Rails.application.routes.draw do
       resource :items do
         get '/', to: 'items#index'
         post '/create', to: 'items#create'
-      end
-
-      resource :status do
-        get '/', to: 'status#index'
+        post '/:id', to: 'items#item'
       end
     end
   end
