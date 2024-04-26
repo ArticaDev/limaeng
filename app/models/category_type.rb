@@ -2,7 +2,7 @@ class CategoryType
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  has_many :items_type
+  has_many :item_type
 
   field :name, type: String
 
