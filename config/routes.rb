@@ -67,16 +67,8 @@ Rails.application.routes.draw do
         post '/', to: 'checklists#create'
       end
 
-      resource :categories do
-        get '/', to: 'categories#index'
-        post '/', to: 'categories#create'
-        post '/:id', to: 'categories#update'
-        delete '/', to: 'categories#destroy'
-      end
 
       resource :items do
-        get '/', to: 'items#index'
-        post '/create', to: 'items#create'
         post '/:id', to: 'items#item'
       end
     end
