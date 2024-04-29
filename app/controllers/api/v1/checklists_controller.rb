@@ -39,9 +39,8 @@ module Api
           category.items.each do |i|
             item = items_type.where(id: i.item_type_id)
             i[:name] = item[item_count].name
-            item_count += 1
           end
-
+          item_count += 1
           categories_body << category
           name = category_type.where(id: category.category_type_id)
           categories_body[count][:name] = name[0].name
