@@ -7,9 +7,9 @@ module Api
       before_action :set_project, only: %i[month stages_progression stage_steps create_custom_stage]
 
       def stage_types
-        @stage_types = 
-          StageType.where(isDefault: true)
-          .or(StageType.where(project_id: @project.id))
+        @stage_types = StageType.all
+          # StageType.where(isDefault: true)
+          # .or(StageType.where(project_id: @project.id))
         render json: @stage_types.map(&:name)
       end
 
