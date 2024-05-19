@@ -24,7 +24,7 @@ Rails.application.routes.draw do
       resources :states, only: %i[index create]
 
       resource :stages do
-        get '/types', to: 'stages#stage_types'
+        get '/types/:id', to: 'stages#stage_types'
         get '/steps/:id', to: 'stages#stage_steps'
         post '/update_steps', to: 'stages#update_stage_steps'
         post '/update', to: 'stages#update_stage'

@@ -46,7 +46,11 @@ module Api
           categories_body[count][:name] = name[0].name
           count += 1
         end
-        render json: categories_body
+        checklist_data = {
+          name: checklist.name,
+          items: categories_body
+        }
+        render json: checklist_data
       end
 
       def destroy
