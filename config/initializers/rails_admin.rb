@@ -89,21 +89,49 @@ RailsAdmin.config do |config|
     end
   end
 
+  config.model 'CategoryType' do
+    label 'Checklist de validação de obra - Categorias'
+    list do 
+      field :name do
+        label 'Nome'
+      end
+    end
+    edit do 
+      field :name do
+        label 'Nome'
+      end
+    end
+  end
+
+  config.model 'ItemType' do
+    label 'Checklist de validação de obra - Itens'
+    list do 
+      field :name do
+        label 'Nome'
+      end
+      field :category_type do
+        label 'Categoria'
+      end
+    end
+  end
+
   config.actions do
     dashboard do 
-      only ['State']
+      only ['State', 'CategoryType', 'ItemType']
     end
     index do
-      only ['State']
+      only ['State', 'CategoryType', 'ItemType']
     end 
-    # new
+    new do 
+      only ['CategoryType', 'ItemType']
+    end
     export  do
      only ['State']
     end 
     # bulk_delete
     # show
     edit do
-      only ['State']
+      only ['State', 'CategoryType', 'ItemType']
     end 
     # delete
     # show_in_app
