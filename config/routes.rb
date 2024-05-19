@@ -59,6 +59,18 @@ Rails.application.routes.draw do
         post '/delete_file', to: 'documents#delete_file'
         get '/:id', to: 'documents#show'
       end
+
+      resource :checklists do
+        get '/user/:id', to: 'checklists#checklists'
+        get '/:id', to: 'checklists#checklist'
+        delete '/:id', to: 'checklists#destroy'
+        post '/', to: 'checklists#create'
+      end
+
+
+      resource :items do
+        post '/:id', to: 'items#item'
+      end
     end
   end
 

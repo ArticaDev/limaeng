@@ -4,6 +4,8 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  has_many :checklists
+
   field :name, type: String
   field :email, type: String
   field :birth_date, type: String
