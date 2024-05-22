@@ -141,7 +141,9 @@ RailsAdmin.config do |config|
     edit do
       only ['State', 'CategoryType', 'ItemType']
     end 
-    # delete
+    delete do 
+      ['CategoryType', 'ItemType']
+    end
     # show_in_app
 
     ## With an audit adapter, you can add:
