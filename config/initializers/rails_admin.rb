@@ -113,6 +113,14 @@ RailsAdmin.config do |config|
         label 'Categoria'
       end
     end
+    edit do
+      field :name do
+        label 'Nome'
+      end
+      field :category_type do
+        label 'Categoria'
+      end
+    end
   end
 
   config.actions do

@@ -4,12 +4,11 @@ module Api
   module V1
     class StagesController < ApiController
       before_action :set_project_and_stage, only: %i[update_stage stage update_stage_steps]
-      before_action :set_project, only: %i[month stages_progression stage_steps create_custom_stage]
+      before_action :set_project, only: %i[month stages_progression stage_steps create_custom_stage stage_types]
 
       def stage_types
-        @stage_types = StageType.all
-          # StageType.where(isDefault: true)
-          # .or(StageType.where(project_id: @project.id))
+        @stage_types = StageType.where(isDefault: true)
+          .or(StageType.where(project_id: @project.id))
         render json: @stage_types.map(&:name)
       end
 
