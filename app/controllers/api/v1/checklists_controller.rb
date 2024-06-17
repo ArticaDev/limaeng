@@ -5,14 +5,17 @@ module Api
       def create
         user = User.find(params[:user_id])
         checklist = Checklist.create!(name: params[:name], user_id: params[:user_id])
+        groups_name = GroupName.all
         categories_type = CategoryType.all
         items_type = ItemType.all
-        categories_type.each do |category_type|
-          category = Category.create!(checklist_id: checklist.id, category_type_id: category_type.id)
-
-          item_array = items_type.where(category_type_id: category_type.id.to_s)
-          item_array.each do |item|
-            item = Item.create!(category_id: category.id, item_type_id: item.id.to_s, status: "not done")
+        groups_name.each do |groups|
+          group = Group.create!(checklist: checklist.id, group_name: groups.id)
+          categories_type.each do |category_type|
+            category = Category.create!(group_id: group.id, category_type_id: category_type.id)
+            item_array = items_type.where(category_type_id: category_type.id.to_s)
+            item_array.each do |item|
+              item = Item.create!(category_id: category.id, item_type_id: item.id.to_s, status: "not done")
+            end
           end
         end
         render json: "Checklist created"
@@ -26,31 +29,31 @@ module Api
       end
 
       def checklist
-        # id = params[:id]
-        # checklist = Checklist.find(id)
-        # categories = Category.where(checklist_id: id)
-        # category_type = CategoryType.all
-        # items_type = ItemType.all
-        # items = Item.all
-        # count = 0
-        # categories_body = []
-        # categories.each do |category|
-        #   item_count = 0
-        #   category.items.each do |i|
-        #     item = items_type.where(id: i.item_type_id)
-        #     i[:name] = item[item_count].name
-        #   end
-        #   item_count += 1
-        #   categories_body << category
-        #   name = category_type.where(id: category.category_type_id)
-        #   categories_body[count][:name] = name[0].name
-        #   count += 1
-        # end
-        # checklist_data = {
-        #   name: checklist.name,
-        #   items: categories_body
-        # }
-        # render json: checklist_data
+        id = params[:id]
+        checklist = Checklist.find(id)
+        categories = Category.where(checklist_id: id)
+        category_type = CategoryType.all
+        items_type = ItemType.all
+        items = Item.all
+        count = 0
+        categories_body = []
+        categories.each do |category|
+          item_count = 0
+          category.items.each do |i|
+            item = items_type.where(id: i.item_type_id)
+            i[:name] = item[item_count].name
+          end
+          item_count += 1
+          categories_body << category
+          name = category_type.where(id: category.category_type_id)
+          categories_body[count][:name] = name[0].name
+          count += 1
+        end
+        checklist_data = {
+          name: checklist.name,
+          items: categories_body
+        }
+        render json: checklist_data
       end
 
       def destroy

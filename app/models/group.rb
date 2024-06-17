@@ -5,5 +5,5 @@ class Group
   belongs_to :checklist
   has_many :category
 
-  field :name, type: String
+  field :group_name, type: String
 end
