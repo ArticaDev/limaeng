@@ -26,31 +26,31 @@ module Api
       end
 
       def checklist
-        id = params[:id]
-        checklist = Checklist.find(id)
-        categories = Category.where(checklist_id: id)
-        category_type = CategoryType.all
-        items_type = ItemType.all
-        items = Item.all
-        count = 0
-        categories_body = []
-        categories.each do |category|
-          item_count = 0
-          category.items.each do |i|
-            item = items_type.where(id: i.item_type_id)
-            i[:name] = item[item_count].name
-          end
-          item_count += 1
-          categories_body << category
-          name = category_type.where(id: category.category_type_id)
-          categories_body[count][:name] = name[0].name
-          count += 1
-        end
-        checklist_data = {
-          name: checklist.name,
-          items: categories_body
-        }
-        render json: checklist_data
+        # id = params[:id]
+        # checklist = Checklist.find(id)
+        # categories = Category.where(checklist_id: id)
+        # category_type = CategoryType.all
+        # items_type = ItemType.all
+        # items = Item.all
+        # count = 0
+        # categories_body = []
+        # categories.each do |category|
+        #   item_count = 0
+        #   category.items.each do |i|
+        #     item = items_type.where(id: i.item_type_id)
+        #     i[:name] = item[item_count].name
+        #   end
+        #   item_count += 1
+        #   categories_body << category
+        #   name = category_type.where(id: category.category_type_id)
+        #   categories_body[count][:name] = name[0].name
+        #   count += 1
+        # end
+        # checklist_data = {
+        #   name: checklist.name,
+        #   items: categories_body
+        # }
+        # render json: checklist_data
       end
 
       def destroy

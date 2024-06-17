@@ -3,7 +3,7 @@ class Category
   include Mongoid::Timestamps
 
   has_many :items
-  belongs_to :checklist
+  belongs_to :group
 
   field :category_type_id, type: BSON::ObjectId
   field :items,type: Array

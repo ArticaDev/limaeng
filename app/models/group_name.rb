@@ -1,10 +1,8 @@
-class CategoryType
+class GroupName
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  has_many :item_type
-  belongs_to :group_name
+  has_many :category_types
 
   field :name, type: String
-
 end
