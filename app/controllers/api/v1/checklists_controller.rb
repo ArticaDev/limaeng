@@ -9,6 +9,9 @@ module Api
         categories_type = CategoryType.all
         items_type = ItemType.all
         groups_type.each do |groups|
+          if checklist.building_type == "Apartamento" || groups.name == "Externo"
+            next
+          end
           group = Group.create!(checklist: checklist.id, group_type: groups.name)
           categories_type.where(group_type: groups.id).each do |category_type|
             category = Category.create!(group_id: group.id, category_type_id: category_type.id, name: category_type.name)
