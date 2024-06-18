@@ -3,8 +3,8 @@ class Checklist
   include Mongoid::Timestamps
 
   belongs_to :user
-  has_one :building
 
   field :name, type: String
+  field :building_type, type: String
 
 end

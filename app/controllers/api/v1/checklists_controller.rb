@@ -4,12 +4,12 @@ module Api
 
       def create
         user = User.find(params[:user_id])
-        checklist = Checklist.create!(name: params[:name], user_id: params[:user_id])
-        groups_name = GroupName.all
+        checklist = Checklist.create!(name: params[:name], user_id: params[:user_id], building_type: params[:building])
+        groups_type = GroupType.all
         categories_type = CategoryType.all
         items_type = ItemType.all
-        groups_name.each do |groups|
-          group = Group.create!(checklist: checklist.id, group_name: groups.name)
+        groups_type.each do |groups|
+          group = Group.create!(checklist: checklist.id)
           categories_type.each do |category_type|
             category = Category.create!(group_id: group.id, category_type_id: category_type.id, name: category_type.name)
             item_array = items_type.where(category_type_id: category_type.id.to_s)
@@ -38,7 +38,7 @@ module Api
           checklist_body << group
         end
 
-        render json: checklist_body[0]
+        render json: checklist_body
       end
 
       def destroy
