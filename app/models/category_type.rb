@@ -7,4 +7,5 @@ class CategoryType
 
   field :name, type: String
 
+
 end

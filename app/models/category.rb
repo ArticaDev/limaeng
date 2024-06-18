@@ -6,5 +6,6 @@ class Category
   belongs_to :group
 
   field :category_type_id, type: BSON::ObjectId
+  field :name, type: String
   field :items,type: Array
 end

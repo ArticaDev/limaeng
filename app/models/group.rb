@@ -6,4 +6,6 @@ class Group
   has_many :category
 
   field :group_name, type: String
+  field :category,type: Array
+
 end

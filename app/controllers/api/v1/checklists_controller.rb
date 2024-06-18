@@ -9,12 +9,12 @@ module Api
         categories_type = CategoryType.all
         items_type = ItemType.all
         groups_name.each do |groups|
-          group = Group.create!(checklist: checklist.id, group_name: groups.id)
+          group = Group.create!(checklist: checklist.id, group_name: groups.name)
           categories_type.each do |category_type|
-            category = Category.create!(group_id: group.id, category_type_id: category_type.id)
+            category = Category.create!(group_id: group.id, category_type_id: category_type.id, name: category_type.name)
             item_array = items_type.where(category_type_id: category_type.id.to_s)
             item_array.each do |item|
-              item = Item.create!(category_id: category.id, item_type_id: item.id.to_s, status: "not done")
+              item = Item.create!(category_id: category.id, item_type_id: item.id.to_s, name: item.name, status: "not done")
             end
           end
         end
@@ -30,9 +30,15 @@ module Api
 
       def checklist
         id = params[:id]
-        checklist = Checklist.find(id)
-        groups = Group.find_by(checklist_id: checklist.id)
-        render json: groups
+        checklist_body = []
+        checklist_id = Checklist.find(id).id
+        groups = Group.where(checklist_id: checklist_id)
+        groups.each do |group|
+          group.category << Category.where(group_id: group.id)
+          checklist_body << group
+        end
+
+        render json: checklist_body[0]
       end
 
       def destroy
