@@ -4,7 +4,7 @@ module Api
 
       def create
         user = User.find(params[:user_id])
-        checklist = Checklist.create!(name: params[:name], user_id: params[:user_id], building_type: params[:building])
+        checklist = Checklist.create!(name: params[:name], user_id: params[:user_id], building_type: params[:building_type])
         groups_type = GroupType.all
         categories_type = CategoryType.all
         items_type = ItemType.all
