@@ -33,14 +33,14 @@ module Api
       def checklist
         id = params[:id]
         checklist_body = []
-        checklist_id = Checklist.find(id).id
-        groups = Group.where(checklist_id: checklist_id)
-        groups.each do |group|
-          group.category << Category.where(group_id: group.id)
-          checklist_body << group
-        end
-
-        render json: checklist_body
+        checklist = Checklist.find(id)
+        groups = Group.where(checklist_id: checklist.id)
+        checklist_data = {
+            name: checklist.name,
+            building: checklist.building_type,
+            groups: groups
+        }
+        render json: checklist_data
       end
 
       def destroy
