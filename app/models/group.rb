@@ -3,12 +3,11 @@ class Group
   include Mongoid::Timestamps
 
 
-
+  belongs_to :group_type
   belongs_to :checklist
   has_many :category
 
   field :group_type, type: String
-  field :category, type: Array
 
 
 

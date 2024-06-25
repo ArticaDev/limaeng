@@ -5,6 +5,8 @@ class Item
   belongs_to :category
 
   field :item_type_id, type: BSON::ObjectId
-  field :name, type: String
+  def name
+    item_type.name
+  end
   field :status, type: String
 end

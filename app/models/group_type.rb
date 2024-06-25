@@ -2,9 +2,8 @@ class GroupType
   include Mongoid::Document
   include Mongoid::Timestamps
 
-
-  field :name, type: String
-
+  has_many :groups
   has_many :category_types
 
+  field :name, type: String
 end

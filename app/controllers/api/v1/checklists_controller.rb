@@ -32,9 +32,9 @@ module Api
 
       def checklist
         id = params[:id]
-        checklist_body = []
         checklist = Checklist.find(id)
         groups = Group.where(checklist_id: checklist.id)
+        body = {"Groups" => [1, 2, 3]}
         checklist_data = {
             name: checklist.name,
             building: checklist.building_type,
