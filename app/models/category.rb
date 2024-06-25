@@ -4,10 +4,8 @@ class Category
 
   has_many :items
   belongs_to :group
-  belongs_to :categories_type
+  belongs_to :category_type
 
-  field :category_type_id, type: BSON::ObjectId
-  field :items,type: Array
   def name
     category_type.name
   end

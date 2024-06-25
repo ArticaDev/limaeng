@@ -7,8 +7,7 @@ class Group
   belongs_to :checklist
   has_many :category
 
-  field :group_type, type: String
-
-
-
+  def name
+    group_type.name
+  end
 end

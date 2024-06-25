@@ -12,11 +12,11 @@ module Api
           if checklist.building_type == "Apartamento" && groups.name == "Externo"
             next
           end
-          group = Group.create!(checklist: checklist.id, group_type: groups.name)
+          group = Group.create!(checklist: checklist.id, group_type_id: groups.id)
           categories_type.where(group_type: groups.id).each do |category_type|
-            category = Category.create!(group_id: group.id, category_type_id: category_type.id, name: category_type.name)
+            category = Category.create!(group_id: group.id, category_type_id: category_type.id)
             items_type.where(category_type_id: category_type.id.to_s).each do |item|
-              item = Item.create!(category_id: category.id, item_type_id: item.id.to_s, name: item.name, status: "not done")
+              item = Item.create!(category_id: category.id, item_type_id: item.id, status: "not done")
             end
           end
         end
@@ -34,13 +34,24 @@ module Api
         id = params[:id]
         checklist = Checklist.find(id)
         groups = Group.where(checklist_id: checklist.id)
-        body = {"Groups" => [1, 2, 3]}
+        categories = []
+        items = []
+        body = []
+        for group in groups
+          categories << Category.where(group_id: group.id)
+        end
+        count = 0
+        for category in categories.flatten
+          items << Item.where(category_id: category.id)
+          body << items
+          count += 1
+        end
         checklist_data = {
             name: checklist.name,
             building: checklist.building_type,
             groups: groups
         }
-        render json: checklist_data
+        render json: body
       end
 
       def destroy
