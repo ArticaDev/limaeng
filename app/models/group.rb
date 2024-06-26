@@ -5,7 +5,7 @@ class Group
 
   belongs_to :group_type
   belongs_to :checklist
-  has_many :category
+  has_many :categories
 
   def name
     group_type.name

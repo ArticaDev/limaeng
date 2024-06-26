@@ -34,16 +34,17 @@ module Api
         id = params[:id]
         checklist = Checklist.find(id)
         groups = Group.where(checklist_id: checklist.id)
-        categories = []
         items = []
         body = []
-        for group in groups
-          categories << Category.where(group_id: group.id)
-        end
         count = 0
-        for category in categories.flatten
-          items << Item.where(category_id: category.id)
-          body << items
+        for group in groups
+          body << {:group => {}, :categories => []}
+          body[count][:group] = group
+          body[count][:categories] = group.categories
+          categories = body[count][:categories].to_a
+          for category in categories
+            items << category
+          end
           count += 1
         end
         checklist_data = {
@@ -51,7 +52,8 @@ module Api
             building: checklist.building_type,
             groups: groups
         }
-        render json: body
+
+        render json: items
       end
 
       def destroy
