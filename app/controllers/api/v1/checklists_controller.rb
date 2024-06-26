@@ -33,27 +33,21 @@ module Api
       def checklist
         id = params[:id]
         checklist = Checklist.find(id)
-        groups = Group.where(checklist_id: checklist.id)
-        items = []
-        body = []
-        count = 0
-        for group in groups
-          body << {:group => {}, :categories => []}
-          body[count][:group] = group
-          body[count][:categories] = group.categories
-          categories = body[count][:categories].to_a
-          for category in categories
-            items << category
+        groups = checklist.groups
+        body = groups.map do |group|
+          categories = group.categories.map do |category|
+            items = category.items.map{|i| i.attributes.merge(name: i.name)}
+            {
+              name: category.name,
+              items: items
+            }
           end
-          count += 1
+          {
+            name: group.name,
+            categories: categories
+          }
         end
-        checklist_data = {
-            name: checklist.name,
-            building: checklist.building_type,
-            groups: groups
-        }
-
-        render json: items
+        render json: body
       end
 
       def destroy
