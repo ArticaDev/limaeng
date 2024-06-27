@@ -39,12 +39,12 @@ module Api
             items = category.items.map{|i| i.attributes.merge(name: i.name)}
             {
               name: category.name,
-              building: checklist.building_type,
               items: items
             }
           end
           checklist_data = {
             name: checklist.name,
+            building: checklist.building_type,
             categories: body
           }
           render json: checklist_data
