@@ -3,7 +3,7 @@ class Category
   include Mongoid::Timestamps
 
   has_many :items
-  belongs_to :group, optional: true
+  belongs_to :group
   belongs_to :category_type
 
   def name

@@ -33,9 +33,16 @@ module Api
       def checklist
         id = params[:id]
         checklist = Checklist.find(id)
+
         if checklist.building_type.nil?
           categories = Category.where(checklist_id: checklist.id)
+          if categories[0].group_id.nil?
+            group = Group.create(checklist_id: checklist.id, group_type_id: GroupType.find_by(name: "Interno"))
+          end
           body = categories.map do |category|
+            if category.group.nil?
+              category.update!(group_id: group.id)
+            end
             items = category.items.map{|i| i.attributes.merge(name: i.name)}
             {
               name: category.name,
