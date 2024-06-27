@@ -47,7 +47,12 @@ module Api
             categories: categories
           }
         end
-        render json: body
+        checklist_data = {
+          name: checklist.name,
+          building: checklist.building_type,
+          groups: body
+        }
+        render json: checklist_data
       end
 
       def destroy
