@@ -39,6 +39,7 @@ module Api
             items = category.items.map{|i| i.attributes.merge(name: i.name)}
             {
               name: category.name,
+              building: checklist.building_type,
               items: items
             }
           end
@@ -55,6 +56,7 @@ module Api
               items = category.items.map{|i| i.attributes.merge(name: i.name)}
               {
                 name: category.name,
+                building: checklist.building_type,
                 items: items
               }
             end
