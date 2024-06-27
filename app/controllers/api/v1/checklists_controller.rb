@@ -5,15 +5,15 @@ module Api
       def create
         user = User.find(params[:user_id])
         checklist = Checklist.create!(name: params[:name], user_id: params[:user_id], building_type: params[:building_type])
-        groups_type = GroupType.all
-        categories_type = CategoryType.all
+        super_class = GroupType.all
+        categories_types = CategoryType.all
         items_type = ItemType.all
-        groups_type.each do |groups|
+        super_class.each do |groups|
           if checklist.building_type == "Apartamento" && groups.name == "Externo"
             next
           end
           group = Group.create!(checklist: checklist.id, group_type_id: groups.id)
-          categories_type.where(group_type: groups.id).each do |category_type|
+          categories_types.where(group_type: groups.id).each do |category_type|
             category = Category.create!(group_id: group.id, category_type_id: category_type.id)
             items_type.where(category_type_id: category_type.id.to_s).each do |item|
               item = Item.create!(category_id: category.id, item_type_id: item.id, status: "not done")
