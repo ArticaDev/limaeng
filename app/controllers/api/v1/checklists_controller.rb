@@ -6,9 +6,8 @@ module Api
         user = User.find(params[:user_id])
         checklist = Checklist.create!(name: params[:name], user_id: params[:user_id], building_type: params[:building_type])
         super_classes = GroupType.all
-        randon_variable = []
         super_classes.each do |group_type|
-          if checklist.building_type == "Apartamento" && group_type.name == "Externo" || group_type.name == "Deprecated"
+          if checklist.building_type == "Apartamento" && group_type.name == "Externo"
             next
           end
           if group_type.name == "Deprecated"
