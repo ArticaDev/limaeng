@@ -7,7 +7,7 @@ module Api
         checklist = Checklist.create!(name: params[:name], user_id: params[:user_id], building_type: params[:building_type])
         super_classes = GroupType.all
         super_classes.each do |group_type|
-          if checklist.building_type == "Apartamento" && group_type.name == "Externo"
+          if checklist.building_type == "Apartamento" && group_type.name == "Externo" || group_type.name == "Deprecated"
             next
           end
           group = Group.create!(checklist: checklist.id, group_type_id: group_type.id)
