@@ -36,7 +36,7 @@ module Api
 
         if checklist.building_type.nil?
           categories = Category.where(checklist_id: checklist.id)
-          if categories[0].group_id.nil?
+          if categories[0].group.nil?
             group = Group.create(checklist_id: checklist.id, group_type_id: GroupType.find_by(name: "Interno"))
           end
           body = categories.map do |category|
