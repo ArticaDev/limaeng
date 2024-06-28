@@ -4,8 +4,7 @@ class Category
 
   has_many :items
   belongs_to :group
-  belongs_to :category_type, dependent: :destroy
-
+  belongs_to :category_type
   def name
     category_type.name
   end
