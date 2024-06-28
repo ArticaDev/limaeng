@@ -11,6 +11,9 @@ module Api
           if checklist.building_type == "Apartamento" && group_type.name == "Externo" || group_type.name == "Deprecated"
             next
           end
+          if group_type.name == "Deprecated"
+            next
+          end
           group = Group.create!(checklist: checklist.id, group_type_id: group_type.id)
           CategoryType.where(group_type: group_type.id).each do |category_type|
             category = Category.create!(group_id: group.id, category_type_id: category_type.id)
