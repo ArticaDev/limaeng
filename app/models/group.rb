@@ -5,7 +5,7 @@ class Group
 
   belongs_to :group_type
   belongs_to :checklist
-  has_many :categories
+  has_many :categories, dependent: :destroy
 
   def name
     group_type.name

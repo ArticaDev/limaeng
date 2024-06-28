@@ -3,7 +3,7 @@ class Checklist
   include Mongoid::Timestamps
 
   belongs_to :user
-  has_many :groups
+  has_many :groups, dependent: :destroy
 
   field :name, type: String
   field :building_type, type: String
