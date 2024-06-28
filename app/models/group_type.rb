@@ -1,11 +1,9 @@
-class Checklist
+class GroupType
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  belongs_to :user
   has_many :groups
+  has_many :category_types
 
   field :name, type: String
-  field :building_type, type: String
-
 end
