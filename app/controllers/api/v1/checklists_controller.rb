@@ -44,8 +44,8 @@ module Api
           end
           body = categories.map do |category|
             if category.group.nil?
-              category.update!(group_id: group.id)
               category.category_type.update!(group_type_id: GroupType.find_by(name: "Deprecated"))
+              category.update!(group_id: group.id)
             end
             items = category.items.map{|i| i.attributes.merge(name: i.name)}
             {
