@@ -33,7 +33,6 @@ module Api
       def checklist
         id = params[:id]
         checklist = Checklist.find(id)
-
         if checklist.building_type.nil?
           categories = Category.where(checklist_id: checklist.id)
           if categories[0].group.nil?
