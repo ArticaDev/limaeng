@@ -44,6 +44,10 @@ module Api
             group = Group.create(checklist_id: checklist.id, group_type_id: GroupType.find_by(name: "Deprecated"))
           end
           body = categories.map do |category|
+            if category.group.nil?
+              category.category_type.update!(group_type_id: GroupType.find_by(name: "Deprecated"))
+              category.update!(group_id: group.id)
+            end
             items = category.items.map{|i| i.attributes.merge(name: i.name)}
             {
               name: category.name,
