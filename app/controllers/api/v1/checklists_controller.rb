@@ -33,57 +33,14 @@ module Api
 
       def checklist
         id = params[:id]
+        body = {}
         checklist = Checklist.find(id)
-        cat = []
         if checklist.building_type.nil?
-          categories = Category.where(checklist_id: checklist.id)
-          if categories[0].group.nil?
-              if GroupType.find_by(name: "Deprecated").nil?
-                superclass = GroupType.create!(name: "Deprecated")
-              end
-            group = Group.create(checklist_id: checklist.id, group_type_id: GroupType.find_by(name: "Deprecated"))
-          end
-          body = categories.map do |category|
-            if category.group.nil?
-              category.category_type.update!(group_type_id: GroupType.find_by(name: "Deprecated"))
-              category.update!(group_id: group.id)
-            end
-            items = category.items.map{|i| i.attributes.merge(name: i.name)}
-            {
-              name: category.name,
-              items: items
-            }
-          end
-          checklist_data = {
-            name: checklist.name,
-            building: checklist.building_type,
-            categories: body
-          }
-          render json: checklist_data
+          body = old_checklist(checklist)
+        else
+          body = new_checklist(checklist)
         end
-        if !checklist.building_type.nil?
-          groups = checklist.groups
-          body = groups.map do |group|
-            categories = group.categories.map do |category|
-              items = category.items.map{|i| i.attributes.merge(name: i.name)}
-              {
-                name: category.name,
-                building: checklist.building_type,
-                items: items
-              }
-            end
-            {
-              name: group.name,
-              categories: categories
-            }
-          end
-          checklist_data = {
-            name: checklist.name,
-            building: checklist.building_type,
-            groups: body
-          }
-          render json: checklist_data
-        end
+        render json: body
       end
 
       def destroy
@@ -92,6 +49,59 @@ module Api
         checklist.destroy
         render json: "Checklist deleted"
       end
+
+      private def old_checklist(checklist)
+        categories = Category.where(checklist_id: checklist.id)
+        if categories[0].group.nil?
+            if GroupType.find_by(name: "Deprecated").nil?
+              GroupType.create!(name: "Deprecated")
+            end
+          group_type_id =  GroupType.find_by(name: "Deprecated").id
+          Group.create(checklist_id: checklist.id, group_type_id: group_type_id)
+        end
+        group = Group.find_by(checklist_id: checklist.id)
+        body = categories.map do |category|
+          if category.group.nil?
+            category.update!(group_id: group.id)
+          end
+          items = category.items.map{|i| i.attributes.merge(name: i.name)}
+          {
+            name: category.name,
+            items: items
+          }
+        end
+        checklist_data = {
+          name: checklist.name,
+          building: checklist.building_type,
+          categories: body
+        }
+        return checklist_data
+      end
+
+      private def new_checklist(checklist)
+        groups = checklist.groups
+        body = groups.map do |group|
+          categories = group.categories.map do |category|
+            items = category.items.map{|i| i.attributes.merge(name: i.name)}
+            {
+              name: category.name,
+              building: checklist.building_type,
+              items: items
+            }
+          end
+          {
+            name: group.name,
+            categories: categories
+          }
+        end
+        checklist_data = {
+          name: checklist.name,
+          building: checklist.building_type,
+          groups: body
+        }
+        return checklist_data
+      end
+
     end
   end
 end
