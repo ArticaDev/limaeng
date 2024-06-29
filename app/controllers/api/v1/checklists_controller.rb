@@ -52,6 +52,7 @@ module Api
 
       private def old_checklist(checklist)
         categories = Category.where(checklist_id: checklist.id)
+        t = []
         if categories[0].group.nil?
             if GroupType.find_by(name: "Deprecated").nil?
               GroupType.create!(name: "Deprecated")
@@ -60,8 +61,13 @@ module Api
           Group.create(checklist_id: checklist.id, group_type_id: group_type_id)
         end
         group = Group.find_by(checklist_id: checklist.id)
+        group_type_id =  GroupType.find_by(name: "Deprecated").id
         body = categories.map do |category|
+          category_type = category.category_type.group_type_id
           if category.group.nil?
+            if category_type.nil?
+              category.category_type.update!(group_type_id: group_type_id)
+            end
             category.update!(group_id: group.id)
           end
           items = category.items.map{|i| i.attributes.merge(name: i.name)}
