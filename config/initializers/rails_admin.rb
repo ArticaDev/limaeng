@@ -89,8 +89,8 @@ RailsAdmin.config do |config|
     end
   end
 
-  config.model 'CategoryType' do
-    label 'Checklist de validação de obra - Categorias'
+  config.model 'GroupType' do
+    label 'Checklist de validação de obra - Areas'
     list do 
       field :name do
         label 'Nome'
@@ -99,6 +99,26 @@ RailsAdmin.config do |config|
     edit do 
       field :name do
         label 'Nome'
+      end
+    end
+  end
+
+  config.model 'CategoryType' do
+    label 'Checklist de validação de obra - Categorias'
+    list do 
+      field :name do
+        label 'Nome'
+      end
+      field :group_type do 
+        label 'Area'
+      end
+    end
+    edit do 
+      field :name do
+        label 'Nome'
+      end
+      field :group_type do 
+        label 'Area'
       end
     end
   end
@@ -125,13 +145,13 @@ RailsAdmin.config do |config|
 
   config.actions do
     dashboard do 
-      only ['State', 'CategoryType', 'ItemType']
+      only ['State', 'CategoryType', 'ItemType', 'GroupType']
     end
     index do
-      only ['State', 'CategoryType', 'ItemType']
+      only ['State', 'CategoryType', 'ItemType', 'GroupType']
     end 
     new do 
-      only ['CategoryType', 'ItemType']
+      only ['CategoryType', 'ItemType', 'GroupType']
     end
     export  do
      only ['State']
@@ -139,10 +159,10 @@ RailsAdmin.config do |config|
     # bulk_delete
     # show
     edit do
-      only ['State', 'CategoryType', 'ItemType']
+      only ['State', 'CategoryType', 'ItemType', 'GroupType']
     end 
     delete do 
-      ['CategoryType', 'ItemType']
+      ['CategoryType', 'ItemType', 'GroupType']
     end
     # show_in_app
 
