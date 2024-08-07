@@ -96,7 +96,7 @@ module Api
             }
           end
           {
-            name: group.name,
+            name: group.name == "Área Interna" ? "Interno" : 'Externo',
             categories: categories
           }
         end
